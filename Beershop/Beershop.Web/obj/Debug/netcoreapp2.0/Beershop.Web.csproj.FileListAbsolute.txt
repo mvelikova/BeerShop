@@ -1,0 +1,16 @@
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\obj\Debug\netcoreapp2.0\Beershop.Web.csprojResolveAssemblyReference.cache
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\obj\Debug\netcoreapp2.0\Beershop.Web.csproj.CoreCompileInputs.cache
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\obj\Debug\netcoreapp2.0\Beershop.Web.AssemblyInfoInputs.cache
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\obj\Debug\netcoreapp2.0\Beershop.Web.AssemblyInfo.cs
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\bin\Debug\netcoreapp2.0\Beershop.Web.deps.json
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\bin\Debug\netcoreapp2.0\Beershop.Web.runtimeconfig.json
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\bin\Debug\netcoreapp2.0\Beershop.Web.runtimeconfig.dev.json
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\bin\Debug\netcoreapp2.0\Beershop.Web.dll
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\bin\Debug\netcoreapp2.0\BeerShop.Data.dll
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\bin\Debug\netcoreapp2.0\BeerShop.Services.dll
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\bin\Debug\netcoreapp2.0\BeerShop.Services.pdb
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\bin\Debug\netcoreapp2.0\BeerShop.Data.pdb
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\bin\Debug\netcoreapp2.0\Beershop.Web.pdb
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\obj\Debug\netcoreapp2.0\Beershop.Web.dll
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\obj\Debug\netcoreapp2.0\Beershop.Web.pdb
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\Beershop.Web\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs

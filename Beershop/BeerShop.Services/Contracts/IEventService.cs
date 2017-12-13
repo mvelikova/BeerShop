@@ -1,0 +1,12 @@
+﻿
+namespace BeerShop.Services.Contracts
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using BeerShop.Data.Models;
+
+    public interface IEventService:IGenericDataService<Event>
+    {
+    }
+}

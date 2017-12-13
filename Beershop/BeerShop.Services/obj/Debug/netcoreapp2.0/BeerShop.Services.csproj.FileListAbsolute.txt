@@ -1,0 +1,11 @@
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Services\bin\Debug\netcoreapp2.0\BeerShop.Services.deps.json
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Services\bin\Debug\netcoreapp2.0\BeerShop.Services.dll
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Services\bin\Debug\netcoreapp2.0\BeerShop.Services.pdb
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Services\obj\Debug\netcoreapp2.0\BeerShop.Services.csprojResolveAssemblyReference.cache
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Services\obj\Debug\netcoreapp2.0\BeerShop.Services.csproj.CoreCompileInputs.cache
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Services\obj\Debug\netcoreapp2.0\BeerShop.Services.AssemblyInfoInputs.cache
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Services\obj\Debug\netcoreapp2.0\BeerShop.Services.AssemblyInfo.cs
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Services\obj\Debug\netcoreapp2.0\BeerShop.Services.dll
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Services\obj\Debug\netcoreapp2.0\BeerShop.Services.pdb
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Services\bin\Debug\netcoreapp2.0\BeerShop.Data.dll
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Services\bin\Debug\netcoreapp2.0\BeerShop.Data.pdb
