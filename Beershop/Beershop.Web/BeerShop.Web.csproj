@@ -7,6 +7,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.1" />
@@ -21,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BeerShop.Data\BeerShop.Data.csproj" />
     <ProjectReference Include="..\BeerShop.Services\BeerShop.Services.csproj" />
-    <ProjectReference Include="..\ClassLibrary1\BeerShop.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,7 +33,6 @@
     <Folder Include="Areas\Admin\Views\" />
     <Folder Include="Areas\Beers\Data\" />
     <Folder Include="Areas\Events\Data\" />
-    <Folder Include="Areas\Events\Models\" />
   </ItemGroup>
 
 </Project>

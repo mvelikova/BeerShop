@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using AutoMapper;
+using BeerShop.Data.Models;
+using BeerShop.Web.Areas.Beers.Models;
 
 namespace BeerShop.Web.Infrastructure.Mapping
 {
@@ -8,6 +11,7 @@ namespace BeerShop.Web.Infrastructure.Mapping
     {
         public AutoMapperProfile()
         {
+            CreateMap<Beer, EditBeerViewModel>();
             var allTypes = AppDomain
                 .CurrentDomain
                 .GetAssemblies()
@@ -47,5 +51,21 @@ namespace BeerShop.Web.Infrastructure.Mapping
                 .ToList()
                 .ForEach(mapping => mapping.Configure(this));
         }
+//        public static IMappingExpression<TSource, TDestination> IgnoreAllNonExisting<TSource, TDestination>
+//            (this IMappingExpression<TSource, TDestination> expression)
+//        {
+//            var flags = BindingFlags.Public | BindingFlags.Instance;
+//            var sourceType = typeof(TSource);
+//            var destinationProperties = typeof(TDestination).GetProperties(flags);
+//
+//            foreach (var property in destinationProperties)
+//            {
+//                if (sourceType.GetProperty(property.Name, flags) == null)
+//                {
+//                    expression.ForMember(property.Name, opt => opt.Ignore());
+//                }
+//            }
+//            return expression;
+//        }
     }
 }

@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeerShop.Web", "Beershop.Web\BeerShop.Web.csproj", "{3B4F16B9-6385-43CD-96F2-E25591DF2BF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeerShop.Data", "ClassLibrary1\BeerShop.Data.csproj", "{9159D1AF-724D-478B-9A88-5CC87CA0C5CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeerShop.Data", "BeerShop.Data\BeerShop.Data.csproj", "{9159D1AF-724D-478B-9A88-5CC87CA0C5CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeerShop.Services", "BeerShop.Services\BeerShop.Services.csproj", "{5744EAB1-963D-47D9-BF59-EBE9DD65F6EE}"
 EndProject

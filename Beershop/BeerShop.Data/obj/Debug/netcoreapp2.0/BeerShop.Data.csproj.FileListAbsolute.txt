@@ -7,3 +7,12 @@ C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\ClassLibrary1\obj\Debug\netcor
 C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\ClassLibrary1\bin\Debug\netcoreapp2.0\BeerShop.Data.pdb
 C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\ClassLibrary1\obj\Debug\netcoreapp2.0\BeerShop.Data.dll
 C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\ClassLibrary1\obj\Debug\netcoreapp2.0\BeerShop.Data.pdb
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Data\bin\Debug\netcoreapp2.0\BeerShop.Data.deps.json
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Data\bin\Debug\netcoreapp2.0\BeerShop.Data.dll
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Data\bin\Debug\netcoreapp2.0\BeerShop.Data.pdb
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Data\obj\Debug\netcoreapp2.0\BeerShop.Data.csprojResolveAssemblyReference.cache
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Data\obj\Debug\netcoreapp2.0\BeerShop.Data.csproj.CoreCompileInputs.cache
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Data\obj\Debug\netcoreapp2.0\BeerShop.Data.AssemblyInfoInputs.cache
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Data\obj\Debug\netcoreapp2.0\BeerShop.Data.AssemblyInfo.cs
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Data\obj\Debug\netcoreapp2.0\BeerShop.Data.dll
+C:\Users\Maria\Documents\GitHub\BeerShop\Beershop\BeerShop.Data\obj\Debug\netcoreapp2.0\BeerShop.Data.pdb

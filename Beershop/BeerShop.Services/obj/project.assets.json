@@ -4011,8 +4011,8 @@
     },
     "BeerShop.Data/1.0.0": {
       "type": "project",
-      "path": "../ClassLibrary1/BeerShop.Data.csproj",
-      "msbuildProject": "../ClassLibrary1/BeerShop.Data.csproj"
+      "path": "../BeerShop.Data/BeerShop.Data.csproj",
+      "msbuildProject": "../BeerShop.Data/BeerShop.Data.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -4054,8 +4054,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "C:\\Users\\Maria\\Documents\\GitHub\\BeerShop\\Beershop\\ClassLibrary1\\BeerShop.Data.csproj": {
-              "projectPath": "C:\\Users\\Maria\\Documents\\GitHub\\BeerShop\\Beershop\\ClassLibrary1\\BeerShop.Data.csproj"
+            "C:\\Users\\Maria\\Documents\\GitHub\\BeerShop\\Beershop\\BeerShop.Data\\BeerShop.Data.csproj": {
+              "projectPath": "C:\\Users\\Maria\\Documents\\GitHub\\BeerShop\\Beershop\\BeerShop.Data\\BeerShop.Data.csproj"
             }
           }
         }

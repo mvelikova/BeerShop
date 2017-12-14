@@ -4013,11 +4013,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\Maria\\Documents\\GitHub\\BeerShop\\Beershop\\ClassLibrary1\\BeerShop.Data.csproj",
+      "projectUniqueName": "C:\\Users\\Maria\\Documents\\GitHub\\BeerShop\\Beershop\\BeerShop.Data\\BeerShop.Data.csproj",
       "projectName": "BeerShop.Data",
-      "projectPath": "C:\\Users\\Maria\\Documents\\GitHub\\BeerShop\\Beershop\\ClassLibrary1\\BeerShop.Data.csproj",
+      "projectPath": "C:\\Users\\Maria\\Documents\\GitHub\\BeerShop\\Beershop\\BeerShop.Data\\BeerShop.Data.csproj",
       "packagesPath": "C:\\Users\\Maria\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Maria\\Documents\\GitHub\\BeerShop\\Beershop\\ClassLibrary1\\obj\\",
+      "outputPath": "C:\\Users\\Maria\\Documents\\GitHub\\BeerShop\\Beershop\\BeerShop.Data\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
