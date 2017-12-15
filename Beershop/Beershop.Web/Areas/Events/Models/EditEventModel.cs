@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Beershop.Data.Models;
+using System.Linq;
+using System.Threading.Tasks;
+using BeerShop.Data.Models;
+using BeerShop.Web.Infrastructure.Mapping;
 
-namespace BeerShop.Data.Models
+namespace BeerShop.Web.Areas.Events.Models
 {
-    public class Event
+    public class EditEventModel:IMapFrom<Event>
     {
         public int Id { get; set; }
 
@@ -23,14 +26,6 @@ namespace BeerShop.Data.Models
         [MaxLength(500)]
         public string Description { get; set; }
 
-       
         public string ImageUrl { get; set; }
-
-        [Required]
-        public string UserId { get; set; }
-
-        public ApplicationUser User { get; set; }
-
-        public ICollection<EventComment> Comments { get; set; } = new HashSet<EventComment>();
     }
 }

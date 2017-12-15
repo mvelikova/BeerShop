@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace BeerShop.Web.Areas.Events.Controllers
 {
@@ -81,60 +82,72 @@ namespace BeerShop.Web.Areas.Events.Controllers
           //  ViewData["UserId"] = usermanager.GetUserId(this.User);
             return View(@event);
         }
-//
-//        // GET: Events/Events/Edit/5
-//        public async Task<IActionResult> Edit(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return NotFound();
-//            }
-//
-//            var @event = await _context.Events.SingleOrDefaultAsync(m => m.Id == id);
-//            if (@event == null)
-//            {
-//                return NotFound();
-//            }
+
+        // GET: Events/Events/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var @event = events.GetSingle(e => e.Id == id);
+            if (@event == null)
+            {
+                return NotFound();
+            }
+           var model = AutoMapper.Mapper.Map<EditEventModel>(@event);
 //            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", @event.UserId);
-//            return View(@event);
-//        }
-//
-//        // POST: Events/Events/Edit/5
-//        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-//        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Place,StartTime,Description,ImageUrl,UserId")] Event @event)
-//        {
-//            if (id != @event.Id)
-//            {
-//                return NotFound();
-//            }
-//
-//            if (ModelState.IsValid)
-//            {
-//                try
-//                {
-//                    _context.Update(@event);
-//                    await _context.SaveChangesAsync();
-//                }
-//                catch (DbUpdateConcurrencyException)
-//                {
-//                    if (!EventExists(@event.Id))
-//                    {
-//                        return NotFound();
-//                    }
-//                    else
-//                    {
-//                        throw;
-//                    }
-//                }
-//                return RedirectToAction(nameof(Index));
-//            }
-//            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", @event.UserId);
-//            return View(@event);
-//        }
-//
+            return View(model);
+        }
+
+        // POST: Events/Events/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id,EditEventModel @event)
+        {
+            if (id != @event.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var newEvent = new Event
+                    {
+                        Id = @event.Id,
+                        Name = @event.Name,
+                        Place = @event.Place,
+                        StartTime = @event.StartTime,
+                        ImageUrl = @event.ImageUrl,
+                        Description = @event.Description,
+                        UserId = usermanager.GetUserId(User)
+                    };
+
+                    events.Update(newEvent);
+                    
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EventExists(@event.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+           // ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", @event.UserId);
+            return View(@event);
+        }
+
 //        // GET: Events/Events/Delete/5
 //        public async Task<IActionResult> Delete(int? id)
 //        {
@@ -165,9 +178,9 @@ namespace BeerShop.Web.Areas.Events.Controllers
 //            return RedirectToAction(nameof(Index));
 //        }
 //
-//        private bool EventExists(int id)
-//        {
-//            return _context.Events.Any(e => e.Id == id);
-//        }
+        private bool EventExists(int id)
+        {
+            return events.Any(e => e.Id == id);
+        }
     }
 }
