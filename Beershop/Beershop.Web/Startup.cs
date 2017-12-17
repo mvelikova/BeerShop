@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Threading.Tasks;
+using AutoMapper;
 using Beershop.Data.Models;
 using Beershop.Services;
 using BeerShop.Data;
@@ -28,10 +30,25 @@ namespace BeerShop.Web
         {
             services.AddDbContext<BeerShopDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    // Password settings
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 3;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequiredUniqueChars = 2;
+                    
+                    //user settings
+                    options.User.RequireUniqueEmail = true;
+                    
+                })
                 .AddEntityFrameworkStores<BeerShopDbContext>()
                 .AddDefaultTokenProviders();
+//            services.AddIdentity<ApplicationUser, IdentityRole>()
+//                .AddEntityFrameworkStores<BeerShopDbContext>()
+//                .AddDefaultTokenProviders();
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
@@ -44,7 +61,7 @@ namespace BeerShop.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -71,8 +88,52 @@ namespace BeerShop.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            using (var serviceScope =
+                app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<BeerShopDbContext>();
+                context.Database.Migrate();
 
-            app.UseDatabaseMigration();
+                CreateRoles(serviceProvider).Wait();
+
+            }
+        }
+        public async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            //initializing custom roles 
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            string[] roleNames = { "Admin" };
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
+            }
+
+            //Here you could create a super user who will maintain the web app
+            
+            var email = this.Configuration.GetSection("UserSettings")["AdminEmail"];
+
+            var superUser = new ApplicationUser
+            {
+                
+                Email = email,
+                UserName=email
+            };
+
+            //Ensure you have these values in your appsettings.json or secrets.json file
+            var userPwd = this.Configuration.GetSection("UserSettings")["AdminPassword"];
+            var user = await userManager.FindByEmailAsync(
+                this.Configuration.GetSection("UserSettings")["AdminEmail"]);
+
+            if (user == null)
+            {
+                var createSuperUser = await userManager.CreateAsync(superUser, userPwd);
+                if (createSuperUser.Succeeded)
+                    await userManager.AddToRoleAsync(superUser, "Admin");
+            }
         }
     }
 }

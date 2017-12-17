@@ -1,12 +1,15 @@
 ﻿using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 using Beershop.Data.Models;
 using BeerShop.Data;
 using BeerShop.Data.Models;
 using BeerShop.Services.Contracts;
 using BeerShop.Services.Implementations;
 using BeerShop.Web.Areas.Events.Models;
+using BeerShop.Web.Controllers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,10 +19,12 @@ using Microsoft.EntityFrameworkCore.Query.Internal;
 namespace BeerShop.Web.Areas.Events.Controllers
 {
     [Area("Events")]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IEventService events;
         private readonly UserManager<ApplicationUser> usermanager;
+
         public HomeController(IEventService events, UserManager<ApplicationUser> users)
         {
             this.events = events;
@@ -27,13 +32,17 @@ namespace BeerShop.Web.Areas.Events.Controllers
         }
 
         // GET: Events/Events
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var ev= this.events.GetAll(e => e.User).ToList();
-            return View( ev);
+            var allEvents = this.events.GetAll(e => e.User).AsQueryable().ProjectTo<EventListingViewModel>().ToList();
+            ViewData["UserId"] = usermanager.GetUserId(User);
+
+            return View(allEvents);
         }
 
         // GET: Events/Events/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,7 +55,7 @@ namespace BeerShop.Web.Areas.Events.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["UserId"] = usermanager.GetUserId(User);
             return View(@event);
         }
 
@@ -54,7 +63,7 @@ namespace BeerShop.Web.Areas.Events.Controllers
         public IActionResult Create()
         {
             var model = new CreateEventViewModel();
-           
+
             return View(model);
         }
 
@@ -79,7 +88,7 @@ namespace BeerShop.Web.Areas.Events.Controllers
                 events.Add(newEvnet);
                 return RedirectToAction(nameof(Index));
             }
-          //  ViewData["UserId"] = usermanager.GetUserId(this.User);
+            //  ViewData["UserId"] = usermanager.GetUserId(this.User);
             return View(@event);
         }
 
@@ -96,8 +105,13 @@ namespace BeerShop.Web.Areas.Events.Controllers
             {
                 return NotFound();
             }
-           var model = AutoMapper.Mapper.Map<EditEventModel>(@event);
-//            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", @event.UserId);
+            if (usermanager.GetUserId(User) != @event.UserId)
+            {
+                return NotFound();
+            }
+           
+            var model = AutoMapper.Mapper.Map<EditEventModel>(@event);
+       
             return View(model);
         }
 
@@ -106,7 +120,7 @@ namespace BeerShop.Web.Areas.Events.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,EditEventModel @event)
+        public async Task<IActionResult> Edit(int id, EditEventModel @event)
         {
             if (id != @event.Id)
             {
@@ -117,19 +131,22 @@ namespace BeerShop.Web.Areas.Events.Controllers
             {
                 try
                 {
-                    var newEvent = new Event
+                    var newEvent = events.GetSingle(e => e.Id == id);
+                    if (usermanager.GetUserId(User) != newEvent.UserId)
                     {
-                        Id = @event.Id,
-                        Name = @event.Name,
-                        Place = @event.Place,
-                        StartTime = @event.StartTime,
-                        ImageUrl = @event.ImageUrl,
-                        Description = @event.Description,
-                        UserId = usermanager.GetUserId(User)
-                    };
+                        return NotFound();
+                    }
+                    ;
+                    newEvent.Id = @event.Id;
+                    newEvent.Name = @event.Name;
+                    newEvent.Place = @event.Place;
+                    newEvent.StartTime = @event.StartTime;
+                    newEvent.ImageUrl = @event.ImageUrl;
+                    newEvent.Description = @event.Description;
+                    newEvent.UserId = usermanager.GetUserId(User);
+
 
                     events.Update(newEvent);
-                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -144,40 +161,48 @@ namespace BeerShop.Web.Areas.Events.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-           // ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", @event.UserId);
+            
             return View(@event);
         }
 
-//        // GET: Events/Events/Delete/5
-//        public async Task<IActionResult> Delete(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return NotFound();
-//            }
-//
-//            var @event = await _context.Events
-//                .Include(e => e.User)
-//                .SingleOrDefaultAsync(m => m.Id == id);
-//            if (@event == null)
-//            {
-//                return NotFound();
-//            }
-//
-//            return View(@event);
-//        }
-//
-//        // POST: Events/Events/Delete/5
-//        [HttpPost, ActionName("Delete")]
-//        [ValidateAntiForgeryToken]
-//        public async Task<IActionResult> DeleteConfirmed(int id)
-//        {
-//            var @event = await _context.Events.SingleOrDefaultAsync(m => m.Id == id);
-//            _context.Events.Remove(@event);
-//            await _context.SaveChangesAsync();
-//            return RedirectToAction(nameof(Index));
-//        }
-//
+        // GET: Events/Events/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var @event = events.GetSingle(e => e.Id == id);
+            if (@event == null)
+            {
+                return NotFound();
+            }
+            if (usermanager.GetUserId(User) != @event.UserId)
+            {
+                return NotFound();
+            }
+
+           
+
+            return View(@event);
+        }
+
+        // POST: Events/Events/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var @event = events.GetSingle(e => e.Id == id);
+
+            events.Remove(@event);
+            if (usermanager.GetUserId(User) != @event.UserId)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool EventExists(int id)
         {
             return events.Any(e => e.Id == id);

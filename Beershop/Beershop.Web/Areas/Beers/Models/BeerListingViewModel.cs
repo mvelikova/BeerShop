@@ -1,4 +1,5 @@
-﻿using BeerShop.Data.Models;
+﻿using System.Collections.Generic;
+using BeerShop.Data.Models;
 using BeerShop.Web.Infrastructure.Mapping;
 
 namespace BeerShop.Web.Areas.Beers.Models
@@ -14,5 +15,9 @@ namespace BeerShop.Web.Areas.Beers.Models
         public string Price { get; set; }
 
         public string Country { get; set; }
+
+        public string UserId { get; set; }
+
+        public ICollection<BeerComment> Comments { get; set; } = new HashSet<BeerComment>();
     }
 }

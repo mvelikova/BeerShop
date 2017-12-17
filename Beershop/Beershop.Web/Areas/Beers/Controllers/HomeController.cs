@@ -9,6 +9,7 @@ using Beershop.Data.Models;
 using BeerShop.Data.Models;
 using BeerShop.Services.Contracts;
 using BeerShop.Web.Areas.Beers.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -29,13 +30,16 @@ namespace BeerShop.Web.Areas.Beers.Controllers
           }
 
         // GET: Beers/Beers
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var listBeers = beers.GetAll().AsQueryable().ProjectTo<BeerListingViewModel>().ToList();
+            ViewData["UserId"] = userManager.GetUserId(User);
             return View(listBeers);
         }
 
         // GET: Beers/Beers/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,6 +52,7 @@ namespace BeerShop.Web.Areas.Beers.Controllers
             {
                 return NotFound();
             }
+            ViewData["UserId"] = userManager.GetUserId(User);
 
             return View(beer);
         }
@@ -56,7 +61,7 @@ namespace BeerShop.Web.Areas.Beers.Controllers
         public IActionResult Create()
         {
             var model=new CreateBeerViewModel();
-//            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+
             return View(model);
         }
 
@@ -104,6 +109,10 @@ namespace BeerShop.Web.Areas.Beers.Controllers
             {
                 return NotFound();
             }
+            if (userManager.GetUserId(User) != beer.UserId)
+            {
+                return NotFound();
+            }
             EditBeerViewModel model = Mapper.Map<EditBeerViewModel>(beer);
            
             return View(model);
@@ -121,6 +130,10 @@ namespace BeerShop.Web.Areas.Beers.Controllers
                 return NotFound();
             }
             var newBeer = beers.GetSingle(b => b.Id == beer.Id);
+            if (userManager.GetUserId(User) != newBeer.UserId)
+            {
+                return NotFound();
+            }
 
             newBeer.Name = beer.Name;
             newBeer.Color = beer.Color;
@@ -172,7 +185,10 @@ namespace BeerShop.Web.Areas.Beers.Controllers
             {
                 return NotFound();
             }
-
+            if (userManager.GetUserId(User) != beer.UserId)
+            {
+                return NotFound();
+            }
             return View(beer);
         }
 
@@ -181,9 +197,13 @@ namespace BeerShop.Web.Areas.Beers.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+          
             var beer = beers.GetSingle(b => b.Id == id);
           beers.Remove(beer);
-         
+            if (userManager.GetUserId(User) !=beer.UserId)
+            {
+                return NotFound();
+            }
             return RedirectToAction(nameof(Index));
         }
 

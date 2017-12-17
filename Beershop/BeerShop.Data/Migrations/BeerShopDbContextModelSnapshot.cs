@@ -136,8 +136,7 @@ namespace BeerShop.Data.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(500);
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired();
+                    b.Property<string>("ImageUrl");
 
                     b.Property<string>("Name")
                         .IsRequired()

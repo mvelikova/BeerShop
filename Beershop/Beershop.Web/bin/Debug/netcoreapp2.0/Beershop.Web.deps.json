@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "9afc0529db0f66c7ba6711b57cdfc23fe5d563a0"
+    "signature": "93fa742f36ebe12909d6dd14a616e0bd4d2a9e35"
   },
   "compilationOptions": {
     "defines": [
@@ -31,7 +31,8 @@
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "2.0.1",
           "Microsoft.EntityFrameworkCore.Tools": "2.0.1",
           "Microsoft.NETCore.App": "2.0.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.0.1"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.0.1",
+          "bootstrap": "3.3.7"
         },
         "runtime": {
           "BeerShop.Web.dll": {}
@@ -74,6 +75,12 @@
           "lib/netstandard2.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {}
         }
       },
+      "bootstrap/3.3.7": {
+        "dependencies": {
+          "jQuery": "1.9.1"
+        }
+      },
+      "jQuery/1.9.1": {},
       "Libuv/1.10.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "2.0.0"
@@ -4313,6 +4320,20 @@
       "sha512": "sha512-528nEpAwniNn8Z6Ae9qTiM/kN4f0BxmWE9mDMEkqKKGxbuElmv6Kj9DVvTXECJkIt6ARerb9+vYbOifNpcwvXQ==",
       "path": "automapper.extensions.microsoft.dependencyinjection/3.2.0",
       "hashPath": "automapper.extensions.microsoft.dependencyinjection.3.2.0.nupkg.sha512"
+    },
+    "bootstrap/3.3.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3YTWhPNh6UcnUvzw9u6A2/hy2w0h4lznxPbX6FY47lFia3+Ib4zBixTpW6YieYA/b2fLXbkjoD59OjcVF3cJXw==",
+      "path": "bootstrap/3.3.7",
+      "hashPath": "bootstrap.3.3.7.nupkg.sha512"
+    },
+    "jQuery/1.9.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HiX9icLyiJGgiL5EOIn0d1MBPHVV2M9mzWT4mANdniDNR51RvAFTyKEXEd2+5yQJ4PJ5xePOR61Vjj/omQzYcw==",
+      "path": "jquery/1.9.1",
+      "hashPath": "jquery.1.9.1.nupkg.sha512"
     },
     "Libuv/1.10.0": {
       "type": "package",
