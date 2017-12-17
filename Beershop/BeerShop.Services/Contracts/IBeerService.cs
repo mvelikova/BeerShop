@@ -8,5 +8,7 @@ namespace BeerShop.Services.Contracts
 
     public interface IBeerService:IGenericDataService<Beer>
     {
+        List<Beer> GetAllWithComments();
+        Beer GetSignleWithComments(int? id);
     }
 }

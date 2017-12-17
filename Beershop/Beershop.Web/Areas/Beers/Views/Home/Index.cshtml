@@ -43,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.Country)
             </td>
             <td>
-                @if (item.UserId == ViewData["UserId"].ToString())
+                @if (User.Identity.IsAuthenticated && item.UserId == ViewData["UserId"].ToString())
                 {
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
@@ -51,6 +51,7 @@
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
 
             </td>
+
         </tr>
     }
     </tbody>

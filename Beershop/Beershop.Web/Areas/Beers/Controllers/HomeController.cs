@@ -7,6 +7,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Beershop.Data.Models;
 using BeerShop.Data.Models;
+using BeerShop.Services;
 using BeerShop.Services.Contracts;
 using BeerShop.Web.Areas.Beers.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -46,8 +47,9 @@ namespace BeerShop.Web.Areas.Beers.Controllers
             {
                 return NotFound();
             }
-
-            var beer = beers.GetSingle(b => b.Id == id, b => b.User);
+//
+//            var beer = beers.GetSignleWithComments(id);
+            var beer = beers.Join(b => b.Comments).ThenJoin(c => c.User).FirstOrDefault(b => b.Id == id);
             if (beer == null)
             {
                 return NotFound();

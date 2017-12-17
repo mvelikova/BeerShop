@@ -34,6 +34,6 @@ namespace BeerShop.Services.Contracts
         /// <typeparam name="TProperty"></typeparam>
         /// <param name="navigationProperty">The parent navigation property</param>
         /// <returns></returns>
-       // IIncludableJoin<T, TProperty> Join<TProperty>(Expression<Func<T, TProperty>> navigationProperty);
+        IIncludableJoin<T, TProperty> Join<TProperty>(Expression<Func<T, TProperty>> navigationProperty);
     }
 }

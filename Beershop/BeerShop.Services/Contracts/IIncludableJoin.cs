@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using BeerShop.Data.Models;
 
 namespace BeerShop.Services.Contracts
 {
-  public  interface IBeerCommentService:IGenericDataService<BeerComment>
+    public interface IIncludableJoin<out TEntity, out TProperty> : IQueryable<TEntity>
     {
     }
 }

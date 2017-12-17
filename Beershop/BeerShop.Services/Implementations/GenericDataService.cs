@@ -140,9 +140,9 @@ namespace BeerShop.Services.Implementations
             }
         }
 
-//        public IIncludableJoin<T, TProperty> Join<TProperty>(Expression<Func<T, TProperty>> navigationProperty)
-//        {
-//            return ((IQueryable<T>)this._dbSet).Join(navigationProperty);
-//        }
+        public IIncludableJoin<T, TProperty> Join<TProperty>(Expression<Func<T, TProperty>> navigationProperty)
+        {
+            return ((IQueryable<T>)this._dbSet).Join(navigationProperty);
+        }
     }
 }

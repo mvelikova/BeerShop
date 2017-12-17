@@ -1,4 +1,7 @@
-﻿@model BeerShop.Data.Models.Beer
+﻿@using AngleSharp.Network.Default
+@using Microsoft.AspNetCore.Authentication.Internal
+@using Microsoft.AspNetCore.Rewrite.Internal
+@model BeerShop.Data.Models.Beer
 
 @{
     ViewData["Title"] = "Details";
@@ -38,7 +41,7 @@
             @Html.DisplayNameFor(model => model.ImageUrl)
         </dt>
         <dd>
-           <img src="@Model.ImageUrl"/>
+            <img src="@Model.ImageUrl"/>
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Country)
@@ -50,10 +53,126 @@
     
     </dl>
 </div>
+@if (User.Identity.IsAuthenticated)
+{
+  
+    // Comments
+    <div class="form-group">
+        <label class="control-label">Message:</label>
+        <textarea id="message-content" name="message-content"></textarea>
+    </div>
+
+    <div class="form-group">
+        <a onclick="addComment()" class="btn btn-default">Add Comment</a>
+    </div>
+    if(Model.UserId == ViewData["UserId"].ToString())
+     {
+         <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+     }
+    <table id="comments" class="table table-responsive table">
+        <tr>
+            <th>User</th>
+            <th>Message</th>
+            <th></th>
+        </tr>
+     
+        @foreach (var comment in Model.Comments)
+        {
+            <tr>
+                <td>
+                    @comment.User.Email
+                </td>
+                <td>
+                    @Html.Raw(comment.Message)
+                </td>
+                <td>
+                    @if (comment.UserId == ViewData["UserId"].ToString())
+                    {
+                        <a class="btn btn-danger" onclick="deleteComment('@comment.Id')">Remove</a>
+                    }
+                </td>
+            </tr>
+        }
+     
+    </table>
+}
 <div>
-    @if (Model.UserId == ViewData["UserId"].ToString())
-    {
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-    }
+  
     <a asp-action="Index">Back to List</a>
 </div>
+<script>
+    window.scrollTo(0,0);
+  
+    function addComment() {
+        var commentText = $('#message-content').value;
+        console.log(commentText);
+
+        var dataToSend = {
+            "Message": $('#message-content').val(),
+            "BeerId": @Model.Id
+
+        };
+
+
+        $.ajax(
+                {
+                    type: "POST",
+                    traditional: true,
+                    url: '@Url.Action("Add", "BeerComments")',
+                    contentType: "application/json",
+                    data: JSON.stringify(dataToSend)
+                })
+            .done(function () {
+                $('#message-content').val('');
+                //  var td1 = $("td").text('User.Identity.Name');
+//                var td2 = $("td").text(dataToSend.Message);
+////                var a = $("a").addClass("btn btn-danger").onclick(deleteComment(//ViewData["LastAddedComment"]))
+////                    .Text('Remove');
+                var a = $("<a class='btn btn-danger'>"+'Remove'+"</a>");
+//                var td3 = $("td");
+                var tr = $("<tr></tr>").attr('id', 'new');
+                var remtd = $("<td></td>").append(a);
+                $(tr).append("<td> " + '@User.Identity.Name' + "</td >");
+                $(tr).append("<td> " + dataToSend.Message + "</td >");
+                $(tr).append(remtd);
+                $('#comments').append(tr);
+                $('html, body').animate({
+                    scrollTop: $("#new").offset().top
+                }, 2000);
+            });
+//                .error(function() {
+//                    alert("Error adding comments");
+//                });
+    }
+//
+//        function deleteComment(commentId) {
+//            $.ajax(
+//                    {
+//                        type: "DELETE",
+//                        traditional: true,
+//                        url: "api/comments",
+//                        data: ({ 'id': commentId })
+//                    })
+//                .done(function() {
+//                    alert("Comment deleted");
+//                })
+//                .error(function() {
+//                    alert("Error deleting comment");
+//                });
+//        }
+</script>
+
+<script>
+    //        //a function that changes the main image on hove of some of the thumbnails
+//        $(document).ready(function () {
+//            $(".thumbnail-image").hover(
+//                function () {
+//                    $(this).addClass("thumbnail-image-hovered");
+//                    $("#main-image").attr("src", $(this).attr('src'));
+//                },
+//                function () {
+//                    $(this).removeClass("thumbnail-image-hovered");
+//                }
+//            );
+//        });
+</script>

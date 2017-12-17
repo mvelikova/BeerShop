@@ -12,10 +12,10 @@ namespace BeerShop.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(2000)]
+        [MaxLength(2000)]
         public string Message { get; set; }
 
-     [Required]
+        [Required]
         public string UserId { get; set; }
 
         public ApplicationUser User { get; set; }

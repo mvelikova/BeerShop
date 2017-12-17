@@ -5,6 +5,8 @@ using Beershop.Data.Models;
 using Beershop.Services;
 using BeerShop.Data;
 using BeerShop.Services.Contracts;
+using BeerShop.Services.Html;
+using BeerShop.Services.Html.Implementations;
 using BeerShop.Services.Implementations;
 using BeerShop.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -54,6 +56,9 @@ namespace BeerShop.Web
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IBeerService, BeerService>();
             services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IHtmlService, HtmlService>();
+            services.AddScoped<IBeerCommentService, BeerCommentService>();
+
 
             services.AddAutoMapper();
 
