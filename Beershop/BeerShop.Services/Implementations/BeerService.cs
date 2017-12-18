@@ -41,13 +41,13 @@ namespace BeerShop.Services.Implementations
 
         }
 
-        public List<Type> GetBeerTypes(int id)
+        public List<Type> GetBeerTypes(int ?id)
         {
           return db.Beers.Where(b => b.Id == id).FirstOrDefault().Types.Select(bt=>bt.Type).ToList();
            
         }
 
-       public List<Ingredient> GetBeerIngredients(int id)
+       public List<Ingredient> GetBeerIngredients(int? id)
        {
            return db.Beers.Where(b => b.Id == id).FirstOrDefault().Ingredients.Select(I => I.Ingredient).ToList();
         }

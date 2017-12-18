@@ -86,7 +86,7 @@ namespace BeerShop.Web.Areas.Beers.Controllers
                     Description = beer.Description,
                     Price = beer.Price,
                     Country = beer.Country,
-                   ImageUrl = beer.ImageUrl,
+                    ImageUrl = beer.ImageUrl,
                     UserId = userManager.GetUserId(this.User)
             };
 
@@ -212,7 +212,24 @@ namespace BeerShop.Web.Areas.Beers.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+        
+        public async Task<IActionResult> GetAllIngredients()
+        {
+          
 
+            var ingedients = beers.GetAllBeerIngredients();
+            return Ok(ingedients);
+        }
+        public async Task<IActionResult> GetAllIngredientsWithSubstr(string substr)
+        {
+
+            if (substr==null)
+            {
+                substr = "";
+            }
+            var ingedients = beers.GetAllBeerIngredients().Where(i=>i.Name.ToLower().Contains(substr)).ToList();
+            return Ok(ingedients);
+        }
         private bool BeerExists(int id)
         {
             return beers.Any(b => b.Id == id);

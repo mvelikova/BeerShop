@@ -2,47 +2,53 @@
 @{
     ViewData["Title"] = "View";
 }
+<script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+<!-- Latest compiled and minified CSS -->
 
 <h2>View</h2>
 
 <h4>Beer</h4>
-<hr />
+<hr/>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control"/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            <ul id="categories"></ul>
             <div class="form-group">
                 <label asp-for="Ingredients" class="control-label"></label>
-                <input asp-for="Ingredients" class="form-control" />
+                <input asp-for="Ingredients" class="form-control" id="listIngredient"/>
                 <span asp-validation-for="Ingredients" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
+                <input asp-for="Price" class="form-control"/>
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <input asp-for="Description" class="form-control"/>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
+                <input asp-for="ImageUrl" class="form-control"/>
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
+                <input asp-for="Country" class="form-control"/>
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
-         <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default"/>
             </div>
         </form>
     </div>
@@ -51,7 +57,57 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+<script>
+    var eleement = $('#listIngredient').on("input",
+        function() {
+           
+      $.ajax(
+          {
+              type: "GET",
+              traditional: true,
+              url: '@Url.Action("GetAllIngredientsWithSubstr", "Home")',
+              contentType: "application/json",
+              data: { 'substr': $('#listIngredient').val() },
+              success: function(response) {
+                 
+                    $('#categories').children().remove();
+               
+                  for (let i = 0; i < response.length; i++) {
+//                      console.log(response[i]["name"]);
+                        var li = $(`<li>${(response[i]["name"])}</li>`);
+                        $('#categories').append(li);
+                    }
+                   
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+              }
+          });
+        });
+</script>
+@*////                        $('#message-content').val('');*@
+@*//////                    onclick = "deleteComment(${id})"*@
+@*////                        //  var td1 = $("td").text('User.Identity.Name');*@
+@*//////                var td2 = $("td").text(dataToSend.Message);*@
+@*////////                var a = $("a").addClass("btn btn-danger").onclick(deleteComment(//ViewData["LastAddedComment"]))*@
+@*////////                    .Text('Remove');*@
+@*////                        var id = response["id"];*@
+@*////                        var a = $(`<a id="maina" class="btn btn-danger" >Remove</a>`).bind( "click", function() {*@
+@*////                            deleteComment($(this),id);*@
+@*////                        });;*@
+@*//////                    console.log(id);*@
+@*//////                    var b = `<a asp-controller="BeerComment" asp-action="Delete" asp-route-id="${id}">ProductName</a>`;*@
+@*//////                var td3 = $("td");*@
+@*////                        var tr = $("<tr></tr>").attr('id', 'new');*@
+@*////                        var remtd = $("<td></td>").append(a);*@
+@*////                        $(tr).append("<td> " + 'User.Identity.Name' + "</td >");*@
+@*////                        $(tr).append("<td> " + dataToSend.Message + "</td >");*@
+@*////                        $(tr).append(remtd);*@
+@*////                        $(tr).hide();*@
+@*////                        $('#comments').append(tr);*@
+@*////                        $(tr).fadeIn();*@
+@*////                        $('html, body').animate({*@
+@*////                                scrollTop: $("#new").offset().top*@
+@*////                            },*@
+@*////                            2000);*@
+@*//                }*@
+@*//            });*@
+@*//    });*@

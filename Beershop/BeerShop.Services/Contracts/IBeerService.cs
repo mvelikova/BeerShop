@@ -14,8 +14,8 @@ namespace BeerShop.Services.Contracts
         List<Ingredient> GetAllBeerIngredients();
         void AddIngredient(string name);
         void AddType(string name);
-        List<Data.Models.Type> GetBeerTypes(int id);
-        List<Ingredient> GetBeerIngredients(int id);
+        List<Data.Models.Type> GetBeerTypes(int? id);
+        List<Ingredient> GetBeerIngredients(int ?id);
         void AddIngredientToBeer(int id, string name);
     }
 }
