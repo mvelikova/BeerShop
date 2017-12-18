@@ -19,6 +19,7 @@ namespace BeerShop.Data
         public DbSet<Models.Type> Types { get; set; }
         public DbSet<BeerComment> BeerComments { get; set; }
         public DbSet<EventComment> EventComments { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
@@ -63,6 +64,16 @@ namespace BeerShop.Data
             builder.Entity<BeerComment>()
                 .HasOne(a => a.Beer) //dependent entity
                 .WithMany(e => e.Comments); //principal
+
+            builder.Entity<BeerIngredient>()
+                .HasOne(bc => bc.Beer)
+                .WithMany(b => b.Ingredients)
+                .HasForeignKey(bc => bc.BeerId).OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<BeerIngredient>()
+                .HasOne(bc => bc.Ingredient)
+                .WithMany(c => c.Beers)
+                .HasForeignKey(bc => bc.IngredientId).OnDelete(DeleteBehavior.Restrict);
 
             //beertypes
             builder.Entity<BeerType>()

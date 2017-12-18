@@ -11,6 +11,6 @@ namespace BeerShop.Data.Models
 
         public string Name { get; set; }
 
-        public ICollection<BeerIngredient> Beers { get; set; }
+        public ICollection<BeerIngredient> Beers { get; set; } = new HashSet<BeerIngredient>();
     }
 }

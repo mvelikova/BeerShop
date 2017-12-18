@@ -28,6 +28,8 @@ namespace BeerShop.Web.Areas.Beers.Models
         [Required]
         public string ImageUrl { get; set; }
 
+        public List<string> Ingredients { get; set; }
+
         [Required]
         public string Country { get; set; }
 

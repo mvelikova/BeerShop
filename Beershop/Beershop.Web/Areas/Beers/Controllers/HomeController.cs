@@ -7,6 +7,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Beershop.Data.Models;
 using BeerShop.Data.Models;
+using BeerShop.Data.Models.Mapping;
 using BeerShop.Services;
 using BeerShop.Services.Contracts;
 using BeerShop.Web.Areas.Beers.Models;
@@ -85,12 +86,17 @@ namespace BeerShop.Web.Areas.Beers.Controllers
                     Description = beer.Description,
                     Price = beer.Price,
                     Country = beer.Country,
-                    ImageUrl = beer.ImageUrl,
+                   ImageUrl = beer.ImageUrl,
                     UserId = userManager.GetUserId(this.User)
             };
-            
 
                 beers.Add(newBeer);
+
+                foreach (var ingr in beer.Ingredients)
+                {
+                beers.AddIngredientToBeer(newBeer.Id,ingr);
+                    }
+               
                 return RedirectToAction(nameof(Index));
             }
          
