@@ -35,7 +35,7 @@ namespace BeerShop.Web.Areas.Events.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var allEvents = this.events.GetAll(e => e.User).AsQueryable().ProjectTo<EventListingViewModel>().ToList();
+            var allEvents = this.events.GetAll(e => e.User,e=>e.Comments).AsQueryable().ProjectTo<EventListingViewModel>().ToList();
             ViewData["UserId"] = usermanager.GetUserId(User);
 
             return View(allEvents);

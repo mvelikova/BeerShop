@@ -34,7 +34,7 @@ namespace BeerShop.Web.Areas.Beers.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var listBeers = beers.GetAll().AsQueryable().ProjectTo<BeerListingViewModel>().ToList();
+            var listBeers = beers.GetAll(e => e.User, e => e.Comments).AsQueryable().ProjectTo<BeerListingViewModel>().ToList();
             ViewData["UserId"] = userManager.GetUserId(User);
             return View(listBeers);
         }
@@ -82,7 +82,6 @@ namespace BeerShop.Web.Areas.Beers.Controllers
                 var newBeer = new Beer
                 {
                     Name = beer.Name,
-                    Color = beer.Color,
                     Description = beer.Description,
                     Price = beer.Price,
                     Country = beer.Country,
@@ -138,7 +137,6 @@ namespace BeerShop.Web.Areas.Beers.Controllers
             }
 
             newBeer.Name = beer.Name;
-            newBeer.Color = beer.Color;
             newBeer.Description = beer.Description;
             newBeer.Price = beer.Price;
             newBeer.Country = beer.Country;

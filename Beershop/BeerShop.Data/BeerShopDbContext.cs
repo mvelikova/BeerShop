@@ -71,7 +71,13 @@ namespace BeerShop.Data
                     b.BeerId,
                     b.TypeId
                 });
-
+            //beerIngredients
+            builder.Entity<BeerIngredient>()
+                .HasKey(b => new
+                {
+                    b.BeerId,
+                    b.IngredientId
+                });
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;

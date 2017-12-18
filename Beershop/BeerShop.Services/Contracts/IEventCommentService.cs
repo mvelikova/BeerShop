@@ -5,7 +5,7 @@ using BeerShop.Data.Models;
 
 namespace BeerShop.Services.Contracts
 {
-    interface IEventCommentService:IGenericDataService<EventComment>
+ public   interface IEventCommentService:IGenericDataService<EventComment>
     {
     }
 }

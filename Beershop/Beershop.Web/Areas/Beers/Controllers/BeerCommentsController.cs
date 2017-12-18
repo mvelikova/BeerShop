@@ -12,6 +12,7 @@ using BeerShop.Services.Contracts;
 using BeerShop.Services.Implementations;
 using BeerShop.Web.Areas.Beers.Models.Comments;
 using Ganss.XSS;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace BeerShop.Web.Areas.Beers.Controllers
@@ -114,31 +115,34 @@ namespace BeerShop.Web.Areas.Beers.Controllers
                 User= await this.userManager.GetUserAsync(this.User)
             };
             this.comments.Add(beerComment);
-            ViewData["LastAddedComment"] = beerComment.Id;
-            return Ok();
+          return Ok(beerComment);
         }
 
 
-        //        // DELETE: api/BeerComments/5
-        //        [HttpDelete("{id}")]
-        //        public async Task<IActionResult> DeleteBeerComment([FromRoute] int id)
-        //        {
-        //            if (!ModelState.IsValid)
-        //            {
-        //                return BadRequest(ModelState);
-        //            }
-        //
-        //            var beerComment = await _context.BeerComments.SingleOrDefaultAsync(m => m.Id == id);
-        //            if (beerComment == null)
-        //            {
-        //                return NotFound();
-        //            }
-        //
-        //            _context.BeerComments.Remove(beerComment);
-        //            await _context.SaveChangesAsync();
-        //
-        //            return Ok(beerComment);
-        //        }
+                // DELETE: api/BeerComments/5
+                [HttpDelete]
+                [Authorize]
+        public async Task<IActionResult> Delete( int id)
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        return BadRequest(ModelState);
+                    }
+
+                    var beerComment = comments.GetSingle(c => c.Id == id);
+                    if (beerComment == null)
+                    {
+                        return NotFound();
+                    }
+                    if (userManager.GetUserId(User)!=beerComment.UserId)
+                    {
+                        return NotFound();
+                    }
+                    comments.Remove(beerComment);
+                   
+        
+                    return Ok();
+                }
 
         private bool BeerCommentExists(int id)
         {

@@ -12,6 +12,7 @@ using BeerShop.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,7 +42,7 @@ namespace BeerShop.Web
                     options.Password.RequireUppercase = false;
                     options.Password.RequireLowercase = false;
                     options.Password.RequiredUniqueChars = 2;
-                    
+                  
                     //user settings
                     options.User.RequireUniqueEmail = true;
                     
@@ -58,6 +59,7 @@ namespace BeerShop.Web
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IHtmlService, HtmlService>();
             services.AddScoped<IBeerCommentService, BeerCommentService>();
+            services.AddScoped<IEventCommentService, EventCommentService>();
 
 
             services.AddAutoMapper();
@@ -80,7 +82,7 @@ namespace BeerShop.Web
             }
 
             app.UseStaticFiles();
-
+      
             app.UseAuthentication();
 
             app.UseMvc(routes =>

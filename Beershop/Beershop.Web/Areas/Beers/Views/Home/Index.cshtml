@@ -15,9 +15,7 @@
         <th>
             Name
         </th>
-        <th>
-            Color
-        </th>
+        
         <th>
             Price
         </th>
@@ -33,9 +31,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
+           
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
@@ -49,6 +45,7 @@
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 }
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                <p>@item.Comments.Count Comments</p>
 
             </td>
 

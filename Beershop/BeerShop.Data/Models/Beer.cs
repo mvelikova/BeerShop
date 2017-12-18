@@ -14,8 +14,6 @@ namespace BeerShop.Data.Models
         [MaxLength(100)]
         public string Name { get; set; }
 
-        [Required]
-        public string Color { get; set; }
 
         [Required]
         public string Price { get; set; }
@@ -35,6 +33,8 @@ namespace BeerShop.Data.Models
         public ApplicationUser User { get; set; }
 
         public ICollection<BeerType> Types { get; set; }
+
+        public ICollection<BeerIngredient> Ingredients { get; set; }
 
         public ICollection<BeerComment> Comments { get; set; } = new HashSet<BeerComment>();
     }
