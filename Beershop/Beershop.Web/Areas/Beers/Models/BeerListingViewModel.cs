@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BeerShop.Data.Models;
+using BeerShop.Data.Models.Mapping;
 using BeerShop.Web.Infrastructure.Mapping;
 
 namespace BeerShop.Web.Areas.Beers.Models
@@ -10,8 +11,9 @@ namespace BeerShop.Web.Areas.Beers.Models
 
         public string Name { get; set; }
 
-       
-        public string Price { get; set; }
+        public List<BeerIngredient> Ingredients { get; set; }
+
+      //  public string Type { get; set; }
 
         public string Country { get; set; }
 

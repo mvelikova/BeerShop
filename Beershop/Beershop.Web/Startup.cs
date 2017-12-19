@@ -45,7 +45,9 @@ namespace BeerShop.Web
                   
                     //user settings
                     options.User.RequireUniqueEmail = true;
-                    
+                   
+
+
                 })
                 .AddEntityFrameworkStores<BeerShopDbContext>()
                 .AddDefaultTokenProviders();
@@ -127,7 +129,7 @@ namespace BeerShop.Web
             {
                 
                 Email = email,
-                UserName=email
+                UserName="admin"
             };
 
             //Ensure you have these values in your appsettings.json or secrets.json file

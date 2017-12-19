@@ -50,7 +50,7 @@ namespace BeerShop.Web.Areas.Beers.Controllers
             }
 //
 //            var beer = beers.GetSignleWithComments(id);
-            var beer = beers.Join(b => b.Comments).ThenJoin(c => c.User).FirstOrDefault(b => b.Id == id);
+            var beer = beers.Join(b => b.Comments).ThenJoin(c => c.User).Join(b=>b.Ingredients).ThenJoin(i=>i.Ingredient).FirstOrDefault(b => b.Id == id);
             if (beer == null)
             {
                 return NotFound();
@@ -91,8 +91,9 @@ namespace BeerShop.Web.Areas.Beers.Controllers
             };
 
                 beers.Add(newBeer);
+                var ingredientsList = beer.Ingredients.Split(',', StringSplitOptions.RemoveEmptyEntries);
 
-                foreach (var ingr in beer.Ingredients)
+                foreach (var ingr in ingredientsList)
                 {
                 beers.AddIngredientToBeer(newBeer.Id,ingr);
                     }

@@ -10,51 +10,74 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Beer</h4>
+    <h4>@Model.Name</h4>
     <hr/>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-       
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </dt>
-        <dd>
-            <img src="@Model.ImageUrl"/>
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Country)
-        </dd>
-
-
-    </dl>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="@Model.ImageUrl" style="max-width: 100%"/>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    @Html.DisplayFor(model => model.Description)
+                </div>
+            </div>
+        </div>
+    </div>
+@*    <dl class="dl-horizontal">*@
+@*        <dt>*@
+@*            @Html.DisplayNameFor(model => model.Name)*@
+@*        </dt>*@
+@*        <dd>*@
+@*            @Html.DisplayFor(model => model.Name)*@
+@*        </dd>*@
+@*        <dt>*@
+@*            @Html.DisplayNameFor(model => model.Ingredients)*@
+@*        </dt>*@
+@*       *@
+@*        <dt>*@
+@*            Average price*@
+@*        </dt>*@
+@*        <dd>*@
+@*            @Html.DisplayFor(model => model.Price)*@
+@*        </dd>*@
+@*        <dt>*@
+@*            @Html.DisplayNameFor(model => model.Description)*@
+@*        </dt>*@
+@*        <dd>*@
+@*            @Html.DisplayFor(model => model.Description)*@
+@*        </dd>*@
+@*        <dt>*@
+@*            @Html.DisplayNameFor(model => model.ImageUrl)*@
+@*        </dt>*@
+@*        <dd>*@
+@*            <img src="@Model.ImageUrl"/>*@
+@*        </dd>*@
+@*        <dt>*@
+@*            @Html.DisplayNameFor(model => model.Country)*@
+@*        </dt>*@
+@*        <dd>*@
+@*            @Html.DisplayFor(model => model.Country)*@
+@*        </dd>*@
+@**@
+@**@
+@*    </dl>*@
 </div>
+BOooooooooo
+
+<ul>
+    @foreach (var i in Model.Ingredients)
+    {
+        <li>@i.Ingredient.Name</li>
+    }
+</ul>
 @if (User.Identity.IsAuthenticated)
 {
     // Comments
     <div class="container-fluid">
     <div class="row">
-        <div class="col-md-9"><input type="text" class="form-control " id="message-content" name="message-content" /></div>
-        <a onclick="addComment()" class="btn btn-default col-md-3">Add Comment</a>
+        <div class="col-md-9"><input type="text" placeholder="Write a comment..." class="form-control " id="message-content" name="message-content" /></div>
+        <a onclick="addComment()" id="add" class="btn btn-default col-md-1">Add</a>
     </div>
     </div>
     if (Model.UserId == ViewData["UserId"].ToString())
@@ -72,7 +95,7 @@
         {
             <tr>
                 <td>
-                    @comment.User.Email
+                    @comment.User.UserName
                 </td>
                 <td>
                     @Html.Raw(comment.Message)
@@ -92,8 +115,17 @@
 
     <a asp-action="Index">Back to List</a>
 </div>
+@section Scripts{ 
+
 <script>
    
+        $('#message-content').keyup(function (event) {
+            if (event.keyCode === 13) {
+                $("#add").click();
+            }
+        });
+    
+    
 
     function addComment() {
         var commentText = $('#message-content').value;
@@ -167,11 +199,11 @@
     function log(nsh) {
         console.log(nsh);
     }
-//        }
+@*       }*@
 </script>
 
 <script>
-                //        //a function that changes the main image on hove of some of the thumbnails
+    //        //a function that changes the main image on hove of some of the thumbnails
 //        $(document).ready(function () {
 //            $(".thumbnail-image").hover(
 //                function () {
@@ -184,3 +216,4 @@
 //            );
 //        });
 </script>
+}

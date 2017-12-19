@@ -54,20 +54,33 @@ namespace BeerShop.Services.Implementations
        public void AddIngredientToBeer(int id,string name)
        {
            var ingredient = db.Ingredients.FirstOrDefault(i => i.Name.ToLower() == name.ToLower());
+          
            if (ingredient!=null)
            {
-               var newIngr = new BeerIngredient {BeerId = id ,IngredientId = ingredient.Id};
-               var beer = db.Beers.FirstOrDefault(b => b.Id == newIngr.BeerId);
+             
+               var beer = db.Beers.FirstOrDefault(b => b.Id == id);
+               if (beer.Ingredients.Any(i => i.IngredientId == ingredient.Id))
+               {
+                   return;
+
+               }
+                var newIngr = new BeerIngredient { BeerId = id, IngredientId = ingredient.Id };
                 beer.Ingredients.Add(newIngr);
                db.SaveChanges();
                 return;
             }
          
-           ingredient = new Ingredient {Name = name};
+           ingredient = new Ingredient {Name = name.ToLower()};
            db.Ingredients.Add(ingredient);
            db.SaveChanges();
-            var bi= new BeerIngredient { BeerId = id, IngredientId = ingredient.Id };
-          var beeer= db.Beers.FirstOrDefault(b => b.Id == bi.BeerId);
+      
+          var beeer= db.Beers.FirstOrDefault(b => b.Id == id);
+           if (beeer.Ingredients.Any(i=>i.IngredientId==ingredient.Id))
+           {
+           return;
+
+            }
+            var bi = new BeerIngredient { BeerId = id, IngredientId = ingredient.Id };
             beeer.Ingredients.Add(bi);
            db.SaveChanges();
 

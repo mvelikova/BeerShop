@@ -21,10 +21,10 @@
                 <input asp-for="Name" class="form-control"/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <ul id="categories"></ul>
+            <div  style=" list-style: none;" id="categories"></div>
             <div class="form-group">
                 <label asp-for="Ingredients" class="control-label"></label>
-                <input asp-for="Ingredients" class="form-control" id="listIngredient"/>
+                <input asp-for="Ingredients" autocomplete="off" class="form-control" id="listIngredient"/>
                 <span asp-validation-for="Ingredients" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -58,30 +58,89 @@
     <a asp-action="Index">Back to List</a>
 </div>
 <script>
-    var eleement = $('#listIngredient').on("input",
-        function() {
-           
-      $.ajax(
-          {
-              type: "GET",
-              traditional: true,
-              url: '@Url.Action("GetAllIngredientsWithSubstr", "Home")',
-              contentType: "application/json",
-              data: { 'substr': $('#listIngredient').val() },
-              success: function(response) {
-                 
-                    $('#categories').children().remove();
-               
-                  for (let i = 0; i < response.length; i++) {
+    let element = $('#listIngredient');
+    $(document).ready(getAll(true));
+
+    function getAll(reload) {
+        if (reload) {
+            $('#categories').children().remove();
+
+
+            $.ajax(
+                {
+                    type: "GET",
+                    traditional: true,
+                    url: '@Url.Action("GetAllIngredients", "Home")',
+                    contentType: "application/json",
+                    success: function(response) {
+
+                        for (let i = 0; i < response.length && i < 5; i++) {
 //                      console.log(response[i]["name"]);
-                        var li = $(`<li>${(response[i]["name"])}</li>`);
+                            var li = $(
+                                `<button type="button" class="btn btn-warning btn-xs"  style="margin: 2px;" value="${(
+                                    response[i]["name"].toLowerCase())}">${(response[i]["name"].toLowerCase())
+                                }</button>`);
+                            li.bind('click', addToIngredients);
                         $('#categories').append(li);
                     }
-                   
 
-              }
-          });
+
+                }
+                    });
+                }
+    };
+
+    element.on("input",
+        function() {
+            if (element.val().slice(-1) === ',') {
+                getAll(true);
+            } else {
+                let text = $('#listIngredient').val();
+                let parts = text.split(',');
+                let substr = parts.pop();
+                if (!text) { getAll(true);}
+                if (/\S/.test(substr)) {
+
+
+                    $.ajax(
+                        {
+                            type: "GET",
+                            traditional: true,
+                            url: '@Url.Action("GetAllIngredientsWithSubstr", "Home")',
+                            contentType: "application/json",
+                            data: { 'substr': substr.trim() },
+                            success: function(response) {
+
+                                $('#categories').children().remove();
+
+                                for (let i = 0; i < response.length && i < 5; i++) {
+//                      console.log(response[i]["name"]);
+                                    var li = $(
+                                        `<button type="button" class="btn btn-warning btn-xs" style="margin:2px;" value="${
+                                        (response[i]["name"].toLowerCase())}">${(response[i]["name"].toLowerCase())
+                                        }</button>`);
+                                    li.bind('click', addToIngredients);
+                                    $('#categories').append(li);
+                                }
+
+
+                            }
+                        });
+                } else {
+                    getAll(true);
+                }
+                }
         });
+    function addToIngredients() {
+        let inputText = element.val().trim().split(',');
+        let last = inputText.pop();
+        last = $(this).val()+',';
+        inputText.push(last);
+        
+        element.val(inputText.join());
+        getAll(true);
+        
+    }
 </script>
 @*////                        $('#message-content').val('');*@
 @*//////                    onclick = "deleteComment(${id})"*@
