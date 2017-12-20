@@ -51,10 +51,23 @@ namespace BeerShop.Web
                 })
                 .AddEntityFrameworkStores<BeerShopDbContext>()
                 .AddDefaultTokenProviders();
+            //            services.AddIdentity<ApplicationUser, IdentityRole>()
+            //                .AddEntityFrameworkStores<BeerShopDbContext>()
+            //                .AddDefaultTokenProviders();
 //            services.AddIdentity<ApplicationUser, IdentityRole>()
 //                .AddEntityFrameworkStores<BeerShopDbContext>()
 //                .AddDefaultTokenProviders();
 
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+
+                facebookOptions.AppId = this.Configuration.GetSection("AppKeys")["FacebookAppId"];
+                facebookOptions.AppSecret = this.Configuration.GetSection("AppKeys")["FacebookAppSecret"];
+                facebookOptions.Scope.Add("public_profile");
+                facebookOptions.Fields.Add("name");
+
+                
+            });
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IBeerService, BeerService>();

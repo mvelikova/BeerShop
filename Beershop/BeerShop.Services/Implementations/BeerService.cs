@@ -86,10 +86,17 @@ namespace BeerShop.Services.Implementations
 
         }
 
-       public void AddTypeToBeer(int id,string name)
+       public void AddTypeToBeer(int beerid,string name)
        {
-           db.Types.Add(new Type { Name = name });
+           var beerType = new BeerType
+           {
+               TypeId = db.Types.FirstOrDefault(t => t.Name == name).Id,
+               BeerId = beerid
 
+           };
+
+         db.Beers.FirstOrDefault(b=>b.Id==beerid).Types.Add(beerType);
+           db.SaveChanges();
        }
     }
 }

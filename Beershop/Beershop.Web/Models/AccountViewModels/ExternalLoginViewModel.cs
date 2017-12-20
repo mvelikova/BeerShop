@@ -7,5 +7,6 @@ namespace BeerShop.Web.Models.AccountViewModels
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
     }
 }

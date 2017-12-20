@@ -17,7 +17,7 @@ namespace BeerShop.Web.Areas.Beers.Models
         [MaxLength(100)]
         public string Name { get; set; }
 
-        
+        public List<string> Types { get; set; }
 
         [Required]
         public string Price { get; set; }

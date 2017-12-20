@@ -14,19 +14,34 @@
 <hr/>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form  id="sub" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control"/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div  style=" list-style: none;" id="categories"></div>
+            <div style="list-style: none;" id="categories"></div>
             <div class="form-group">
                 <label asp-for="Ingredients" class="control-label"></label>
                 <input asp-for="Ingredients" autocomplete="off" class="form-control" id="listIngredient"/>
                 <span asp-validation-for="Ingredients" class="text-danger"></span>
             </div>
+            <label asp-for="Types" class="control-label"></label>
+            <input asp-for="Types" type="hidden" id="typeList"/>
+            <div id="types"  class="row">
+             @for (int i = 0; i < Model.Types.Count; i++)
+             {
+                 <div class="col-md-6">
+                     <input type="checkbox" value="@Model.Types[i]" /> @Model.Types[i]
+                    
+                 </div>
+                   
+             }
+                 
+            </div>
+          
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control"/>
@@ -57,10 +72,30 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
 <script>
     let element = $('#listIngredient');
-    $(document).ready(getAll(true));
+    $(document).ready(function() { getAll(true);
+     $('#sub').submit( getTypes);
+     //   element.on("input", getTypes);
+    });
+  
+ 
+    function getTypes() {
+        let children = $('#types').children().children();
+                 @{ Model.Types.Clear(); }
+        var types = [];
+        for (var i = 0; i < children.length; i++) {
+            if (children[i].checked) {
+                types.push(children[i].value);
+            }
+      
+        }
 
+        $('#typeList').val(types);
+       // console.logprop
+     console.log($('#typeList').val());
+    }
     function getAll(reload) {
         if (reload) {
             $('#categories').children().remove();
@@ -76,18 +111,15 @@
 
                         for (let i = 0; i < response.length && i < 5; i++) {
 //                      console.log(response[i]["name"]);
-                            var li = $(
-                                `<button type="button" class="btn btn-warning btn-xs"  style="margin: 2px;" value="${(
-                                    response[i]["name"].toLowerCase())}">${(response[i]["name"].toLowerCase())
-                                }</button>`);
+                            var li = $(`<button type="button" class="btn btn-warning btn-xs"  style="margin: 2px;" value="${(response[i]['name'].toLowerCase())}">${(response[i]['name'].toLowerCase())}</button>`);
                             li.bind('click', addToIngredients);
-                        $('#categories').append(li);
+                            $('#categories').append(li);
+                        }
+
+
                     }
-
-
-                }
-                    });
-                }
+                });
+        }
     };
 
     element.on("input",
@@ -98,7 +130,9 @@
                 let text = $('#listIngredient').val();
                 let parts = text.split(',');
                 let substr = parts.pop();
-                if (!text) { getAll(true);}
+                if (!text) {
+                    getAll(true);
+                }
                 if (/\S/.test(substr)) {
 
 
@@ -117,7 +151,7 @@
 //                      console.log(response[i]["name"]);
                                     var li = $(
                                         `<button type="button" class="btn btn-warning btn-xs" style="margin:2px;" value="${
-                                        (response[i]["name"].toLowerCase())}">${(response[i]["name"].toLowerCase())
+                                        (response[i]['name'].toLowerCase())}">${(response[i]["name"].toLowerCase())
                                         }</button>`);
                                     li.bind('click', addToIngredients);
                                     $('#categories').append(li);
@@ -129,17 +163,18 @@
                 } else {
                     getAll(true);
                 }
-                }
+            }
         });
+
     function addToIngredients() {
         let inputText = element.val().trim().split(',');
         let last = inputText.pop();
-        last = $(this).val()+',';
+        last = $(this).val() + ',';
         inputText.push(last);
-        
+
         element.val(inputText.join());
         getAll(true);
-        
+
     }
 </script>
 @*////                        $('#message-content').val('');*@

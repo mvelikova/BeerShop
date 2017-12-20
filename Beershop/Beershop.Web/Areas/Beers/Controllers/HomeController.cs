@@ -50,7 +50,7 @@ namespace BeerShop.Web.Areas.Beers.Controllers
             }
 //
 //            var beer = beers.GetSignleWithComments(id);
-            var beer = beers.Join(b => b.Comments).ThenJoin(c => c.User).Join(b=>b.Ingredients).ThenJoin(i=>i.Ingredient).FirstOrDefault(b => b.Id == id);
+            var beer = beers.Join(b=>b.Types).ThenJoin(t=>t.Type).Join(b => b.Comments).ThenJoin(c => c.User).Join(b=>b.Ingredients).ThenJoin(i=>i.Ingredient).FirstOrDefault(b => b.Id == id);
             if (beer == null)
             {
                 return NotFound();
@@ -64,6 +64,8 @@ namespace BeerShop.Web.Areas.Beers.Controllers
         public IActionResult Create()
         {
             var model=new CreateBeerViewModel();
+            model.Types = beers.GetAllBeerTypes().Select(t=>t.Name).ToList();
+
 
             return View(model);
         }
@@ -92,7 +94,15 @@ namespace BeerShop.Web.Areas.Beers.Controllers
 
                 beers.Add(newBeer);
                 var ingredientsList = beer.Ingredients.Split(',', StringSplitOptions.RemoveEmptyEntries);
+//                var typesList = beer.Types;
+//                Console.WriteLine(typesList);
+                var typesList2 = beer.Types[0].Split(',', StringSplitOptions.RemoveEmptyEntries);
 
+                //Split(',').ToList();
+                foreach (var type in typesList2)
+                {
+                    beers.AddTypeToBeer(newBeer.Id, type);
+                }
                 foreach (var ingr in ingredientsList)
                 {
                 beers.AddIngredientToBeer(newBeer.Id,ingr);
@@ -202,7 +212,7 @@ namespace BeerShop.Web.Areas.Beers.Controllers
         // POST: Beers/Beers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
           
             var beer = beers.GetSingle(b => b.Id == id);
