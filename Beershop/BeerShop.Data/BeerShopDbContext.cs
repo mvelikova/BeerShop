@@ -29,28 +29,55 @@ namespace BeerShop.Data
 
             builder.Entity<ApplicationUser>()
                 .HasMany(a => a.Events) //dependent
-                .WithOne(b => b.User) //principal
-                .OnDelete(DeleteBehavior.SetNull);
+                .WithOne(b => b.User);
 
             //events
             builder.Entity<Event>()
                 .HasMany(a => a.Comments)
                 .WithOne(b => b.Event);
 
-//            //...........................
+
+            //            //...........................
 
             builder.Entity<ApplicationUser>()
                 .HasMany(a => a.BeerComments) //dependent entity
                 .WithOne(e => e.User);
+
+
             builder.Entity<ApplicationUser>()
                 .HasMany(a => a.Beers)
-                .WithOne(b => b.User)
-                .OnDelete(DeleteBehavior.SetNull);
+                .WithOne(b => b.User);
+
+
             builder.Entity<Beer>()
                 .HasMany(a => a.Comments)
                 .WithOne(b => b.Beer);
+
 //
-//            //beertypes
+//            builder.Entity<BeerComment>()
+//                                .HasOne(m => m.Beer)
+//                .WithMany(m => m.Comments)
+//                .HasForeignKey(m => m.BeerId)
+//                .OnDelete(DeleteBehavior.SetNull);
+//            builder.Entity<BeerComment>()
+//                .HasOne(m => m.User)
+//                .WithMany(m => m.BeerComments)
+//                .HasForeignKey(m => m.UserId)
+//                .OnDelete(DeleteBehavior.SetNull);
+            //
+            //            builder.Entity<Task>()
+            //                .HasRequired(m => m.RequestedEmployee)
+            //                .WithMany(m => m.RequestedTasks)
+            //                .HasForeignKey(m => m.RequestedEmployeeId)
+            //                .WillCascadeOnDelete(false);
+            //
+            //            builder.Entity<Task>()
+            //                .HasRequired(m => m.UpdatedEmployee)
+            //                .WithMany(m => m.UpdatedTasks)
+            //                .HasForeignKey(m => m.UpdatedEmployeeID)
+            //                .WillCascadeOnDelete(false);
+            //
+            //            //beertypes
             builder.Entity<BeerType>()
                 .HasKey(b => new
                 {
@@ -71,7 +98,8 @@ namespace BeerShop.Data
                 .HasOne(bc => bc.Beer)
                 .WithMany(b => b.Ingredients)
                 .HasForeignKey(bc => bc.BeerId);
-//
+
+            //
             builder.Entity<BeerType>()
                 .HasOne(bc => bc.Beer)
                 .WithMany(b => b.Types)

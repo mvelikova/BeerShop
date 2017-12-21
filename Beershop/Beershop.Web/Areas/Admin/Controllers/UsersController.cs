@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Beershop.Data.Models;
+using BeerShop.Services.Contracts;
 using BeerShop.Web.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
@@ -15,11 +16,15 @@ namespace BeerShop.Web.Areas.Admin.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IServiceProvider serviceProvider;
+        private readonly IBeerCommentService beercomments;
+        private readonly IBeerService beers;
 
-        public UsersController(UserManager<ApplicationUser> userManager, IServiceProvider serviceProvider)
+        public UsersController(UserManager<ApplicationUser> userManager, IServiceProvider serviceProvider, IBeerService beers, IBeerCommentService beercomments)
         {
             this.userManager = userManager;
             this.serviceProvider = serviceProvider;
+            this.beercomments = beercomments;
+            this.beers = beers;
         }
 
         public IActionResult Index()
@@ -64,20 +69,7 @@ namespace BeerShop.Web.Areas.Admin.Controllers
             });
         }
 
-        public async Task<IActionResult> Delete(string username)
-        {
-            //delete user
-            var user = await this.userManager.FindByNameAsync(username);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            await this.userManager.DeleteAsync(user);
-
-            return RedirectToAction(nameof(Index));
-        }
+      
 
         public async Task<IActionResult> ChangeUserRole(string username, string newRole)
         {

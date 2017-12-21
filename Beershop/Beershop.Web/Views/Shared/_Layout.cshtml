@@ -34,6 +34,7 @@
         right: 0;
         top: 0;
         z-index: -1;
+
     }
 
     
@@ -405,8 +406,10 @@
                 <li><a asp-area="Events" asp-controller="Home" asp-action="Index">HomeEvents</a></li>
                 @if (User.IsInRole("Admin"))
                 {
-                    <li><a asp-area="Admin" asp-controller="Users" asp-action="Index">Admin</a></li>
-                    }
+                    <li><a asp-area="Admin" asp-controller="Users" asp-action="Index">Manage Users</a></li>
+                    <li><a asp-area="Admin" asp-controller="Types" asp-action="Index">Beer Types</a></li>
+
+                }
             </ul>
             @await Html.PartialAsync("_LoginPartial")
         </div>

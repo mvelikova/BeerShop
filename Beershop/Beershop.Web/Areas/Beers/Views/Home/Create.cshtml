@@ -168,7 +168,7 @@
 
     function addToIngredients() {
         let inputText = element.val().trim().split(',');
-        let last = inputText.pop();
+        let last = inputText.pop().trim();
         last = $(this).val() + ',';
         inputText.push(last);
 

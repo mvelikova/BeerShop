@@ -7,31 +7,34 @@
 }
 
 <h2>Manage Users</h2>
+<style>
 
-<table class="table table-striped">
+    .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+        background-color: #ffe387;
+        opacity: 50;
+    }
+</style>
+<table class="table table-striped ">
     <tr>
         <th>Username</th>
         <th>Email</th>
         <th>Roles</th>
-        <th>Actions</th>
+        <th></th>
     </tr>
     @foreach (var user in Model)
     {
         <tr>
             <td>@user.Username</td>
             <td>@user.Email</td>
-            <td>
-                <ul>
-                    @foreach (var userRole in user.Roles)
-                    {
-                        <li>@userRole</li>
-                    }
-                </ul>
+            <td >
+                @user.Roles.FirstOrDefault()
+                    
+               
             </td>
             <td>
                 <a class="btn btn-default" asp-area="Admin" asp-controller="Users" asp-action="Edit" asp-route-username="@user.Username">Edit</a>
 
-                <a class="btn btn-default" asp-area="Admin" asp-controller="Users" asp-action="Delete" asp-route-username="@user.Username">Delete</a>
+            
             </td>
         </tr>
     }

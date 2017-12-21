@@ -93,21 +93,27 @@ namespace BeerShop.Web.Areas.Beers.Controllers
             };
 
                 beers.Add(newBeer);
-                var ingredientsList = beer.Ingredients.Split(',', StringSplitOptions.RemoveEmptyEntries);
-//                var typesList = beer.Types;
-//                Console.WriteLine(typesList);
-                var typesList2 = beer.Types[0].Split(',', StringSplitOptions.RemoveEmptyEntries);
-
-                //Split(',').ToList();
-                foreach (var type in typesList2)
-                {
-                    beers.AddTypeToBeer(newBeer.Id, type);
-                }
-                foreach (var ingr in ingredientsList)
-                {
-                beers.AddIngredientToBeer(newBeer.Id,ingr);
-                    }
                
+//
+               
+                if (beer.Types[0]!=null)
+                {
+                  var  typesList2 = beer.Types[0].Split(',', StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var type in typesList2)
+                    {
+                        beers.AddTypeToBeer(newBeer.Id, type);
+                    }
+                }
+
+
+                if (beer.Ingredients != null)
+                {
+                    var ingredientsList = beer.Ingredients.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var ingr in ingredientsList)
+                    {
+                        beers.AddIngredientToBeer(newBeer.Id, ingr.Trim());
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
          
@@ -127,7 +133,7 @@ namespace BeerShop.Web.Areas.Beers.Controllers
             {
                 return NotFound();
             }
-            if (userManager.GetUserId(User) != beer.UserId)
+            if (userManager.GetUserId(User) != beer.UserId && !User.IsInRole("Admin"))
             {
                 return NotFound();
             }
@@ -148,7 +154,7 @@ namespace BeerShop.Web.Areas.Beers.Controllers
                 return NotFound();
             }
             var newBeer = beers.GetSingle(b => b.Id == beer.Id);
-            if (userManager.GetUserId(User) != newBeer.UserId)
+            if (userManager.GetUserId(User) != newBeer.UserId && !User.IsInRole("Admin"))
             {
                 return NotFound();
             }
@@ -197,12 +203,12 @@ namespace BeerShop.Web.Areas.Beers.Controllers
                 return NotFound();
             }
 
-            var beer = beers.GetSingle(b => b.Id == id);
+            var beer = beers.GetSingle(b => b.Id == id, b => b.User);
             if (beer == null)
             {
                 return NotFound();
             }
-            if (userManager.GetUserId(User) != beer.UserId)
+            if (userManager.GetUserId(User) != beer.UserId && !User.IsInRole("Admin"))
             {
                 return NotFound();
             }
@@ -217,7 +223,7 @@ namespace BeerShop.Web.Areas.Beers.Controllers
           
             var beer = beers.GetSingle(b => b.Id == id);
           beers.Remove(beer);
-            if (userManager.GetUserId(User) !=beer.UserId)
+            if (userManager.GetUserId(User) !=beer.UserId && !User.IsInRole("Admin"))
             {
                 return NotFound();
             }
@@ -226,9 +232,9 @@ namespace BeerShop.Web.Areas.Beers.Controllers
         
         public async Task<IActionResult> GetAllIngredients()
         {
-          
 
-            var ingedients = beers.GetAllBeerIngredients();
+           
+            var ingedients = beers.GetAllBeerIngredients().GroupBy(b => b.Name).Select(b => b.First()).ToList();
             return Ok(ingedients);
         }
         public async Task<IActionResult> GetAllIngredientsWithSubstr(string substr)

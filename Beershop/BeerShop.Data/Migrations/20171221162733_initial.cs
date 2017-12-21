@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BeerShop.Data.Migrations
 {
-    public partial class initial2 : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

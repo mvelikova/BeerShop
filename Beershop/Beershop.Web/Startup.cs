@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace BeerShop.Web
 {
@@ -54,7 +56,10 @@ namespace BeerShop.Web
                 facebookOptions.Scope.Add("public_profile");
                 facebookOptions.Fields.Add("name");
             });
-
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IBeerService, BeerService>();
@@ -104,7 +109,7 @@ namespace BeerShop.Web
                 var context = serviceScope.ServiceProvider.GetService<BeerShopDbContext>();
                 context.Database.Migrate();
 
-                CreateRoles(serviceProvider).Wait();
+              CreateRoles(serviceProvider).Wait();
             }
         }
 

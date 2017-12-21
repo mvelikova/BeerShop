@@ -13,7 +13,9 @@ namespace BeerShop.Web.Areas.Beers.Models
 
         public List<BeerIngredient> Ingredients { get; set; }
 
-      //  public string Type { get; set; }
+        //  public string Type { get; set; }
+
+        public string ImageUrl { get; set; }
 
         public string Country { get; set; }
 
