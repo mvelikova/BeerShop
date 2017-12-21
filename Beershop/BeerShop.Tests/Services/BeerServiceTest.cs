@@ -202,7 +202,10 @@ namespace BeerShop.Tests.Services
                 result.Ingredients.Count.Should().Be(2);
             }
 
-            private BeerShopDbContext GetDatabase()
+        [Fact]
+       
+
+        private BeerShopDbContext GetDatabase()
             {
                 var dbOptions = new DbContextOptionsBuilder<BeerShopDbContext>()
                     .UseInMemoryDatabase(Guid.NewGuid().ToString())

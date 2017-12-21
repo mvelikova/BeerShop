@@ -398,12 +398,12 @@
             <ul class="nav navbar-nav">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <li><a asp-area="Beers" asp-controller="Home" asp-action="Create">CreateBeer</a></li>
-                    <li><a asp-area="Events" asp-controller="Home" asp-action="Create">CreateEvent</a></li>
+                    <li><a asp-area="Beers" asp-controller="Home" asp-action="Create">Create Beer</a></li>
+                    <li><a asp-area="Events" asp-controller="Home" asp-action="Create">Create Event</a></li>
 
                 }
-                <li><a asp-area="Beers" asp-controller="Home" asp-action="Index">HomeBeers</a></li>
-                <li><a asp-area="Events" asp-controller="Home" asp-action="Index">HomeEvents</a></li>
+                <li><a asp-area="Beers" asp-controller="Home" asp-action="Index">Beers</a></li>
+                <li><a asp-area="Events" asp-controller="Home" asp-action="Index">Events</a></li>
                 @if (User.IsInRole("Admin"))
                 {
                     <li><a asp-area="Admin" asp-controller="Users" asp-action="Index">Manage Users</a></li>
@@ -449,5 +449,3 @@
 </html>
 
 
-@section Scripts{ 
-}

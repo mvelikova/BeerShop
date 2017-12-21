@@ -26,12 +26,7 @@
                 <div class="thumbnail-conrainer"> <img class="img-responsive col-xs-12" src="@item.ImageUrl" alt="Card image cap" onerror="this.src='https://www.socabelec.co.ke/wp-content/uploads/no-photo-21.jpg'"></div>
                 <div class="caption">
                     <p ><h3>@item.Name</h3> from @item.Country</p>
-@*                    <p>*@
-@*                        <ul class="list-group list-group-flush">*@
-@*                            <li class="list-group-item">@nameof(item.Place) : @item.Place</li>*@
-@*                            <li class="list-group-item"> @item.StartTime.DayOfWeek , @item.StartTime.ToString("M") at @item.StartTime.ToString("hh:mm tt")</li>*@
-@*                        </ul>*@
-@*                    </p>*@
+                
                     @if (item.UserId == ViewData["UserId"].ToString() || User.IsInRole("Admin"))
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>

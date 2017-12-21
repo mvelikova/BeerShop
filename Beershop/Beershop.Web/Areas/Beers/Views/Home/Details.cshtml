@@ -7,173 +7,188 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+
 
 <div>
-    <h4>@Model.Name</h4>
+    <h2>@Model.Name</h2>
     <hr/>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4">
-                <img src="@Model.ImageUrl" style="max-width: 100%" onerror="this.src='https://www.socabelec.co.ke/wp-content/uploads/no-photo-21.jpg'"/>
+            <div class=" thumbnail col-md-4" >
+             <div class=" thumbnail" ><img src="@Model.ImageUrl" style="max-width: 100%" onerror="this.src='https://www.socabelec.co.ke/wp-content/uploads/no-photo-21.jpg'" />
+                    <div>@Model.Description</div>
+                </div>
+                   <div class="row">
+                       <div class="col-md-6" align="center">
+                           <div class="row"><b>Ingredients</b></div>
+                           <hr style="margin:5px 0 5px 0;">
+                           <div class="row">
+                               @foreach (var i in Model.Ingredients)
+                               {
+                                   <div class="col-sm-12 col-md-12">@i.Ingredient.Name</div>
+                               }
+                           </div>
+                       </div>
+                       <div class="col-md-6" align="center">
+                           <div class="row"><b>Types</b></div>
+                           <hr style="margin:5px 0 5px 0;">
+                           <div class="row">
+                               @foreach (var t in Model.Types)
+                               {
+                                   <div class="col-sm-12 col-md-12">@t.Type.Name</div>
+                               }
+                           </div>
+                       </div>
+                
+               </div>
             </div>
-            <div class="col-md-4">
-                <div class="row">
-                    @Html.DisplayFor(model => model.Description)
+            <div class="  col-md-8">
+        
+                @if (User.Identity.IsAuthenticated)
+                {
+                    // Comments
+                 
+              
+                    <table id="comments" class="table table-responsive table">
+                        <tr>
+                            <th>User</th>
+                            <th>Message</th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var comment in Model.Comments)
+                        {
+                            <tr>
+                                <td>
+                                    @comment.User.UserName
+                                </td>
+                                <td>
+                                    @Html.Raw(comment.Message)
+                                </td>
+                                <td>
+                                    @if (comment.UserId == ViewData["UserId"].ToString())
+                                    {
+                                        <a class="btn btn-danger" onclick="deleteComment($(this),'@comment.Id')">Remove</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                    <div class="container-fluid">
+                        <div class="row" >
+                            <div class="col-md-10" style="padding-left: 0;">
+                                <input type="text" placeholder="Write a comment..." class="form-control " id="message-content" name="message-content" />
+                            </div>
+                                <a onclick="addComment()" id="add" class="btn btn-default col-md-2" >Add</a>
+                            
+                        </div>
+                    </div>
+                }
+                <div>
+              </div>
+          
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="row">
-                   @foreach (var t in Model.Types)
-                   {
-                       <div class="col-md-6">@t.Type.Name</div>
-                   }
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
-BOooooooooo
 
-<ul>
-    @foreach (var i in Model.Ingredients)
-    {
-        <li>@i.Ingredient.Name</li>
-    }
-</ul>
-@if (User.Identity.IsAuthenticated)
-{
-    // Comments
-    <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-9"><input type="text" placeholder="Write a comment..." class="form-control " id="message-content" name="message-content" /></div>
-        <a onclick="addComment()" id="add" class="btn btn-default col-md-1">Add</a>
-    </div>
-    </div>
-    if (Model.UserId == ViewData["UserId"].ToString())
-    {
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-    }
-    <table id="comments" class="table table-responsive table">
-        <tr>
-            <th>User</th>
-            <th>Message</th>
-            <th></th>
-        </tr>
-
-        @foreach (var comment in Model.Comments)
-        {
-            <tr>
-                <td>
-                    @comment.User.UserName
-                </td>
-                <td>
-                    @Html.Raw(comment.Message)
-                </td>
-                <td>
-                    @if (comment.UserId == ViewData["UserId"].ToString())
-                    {
-                        <a class="btn btn-danger" onclick="deleteComment($(this),'@comment.Id')">Remove</a>
-                    }
-                </td>
-            </tr>
-        }
-
-    </table>
-}
-<div>
 
     <a asp-action="Index">Back to List</a>
 </div>
-@section Scripts{ 
+@section Scripts{
 
-<script>
-   
-        $('#message-content').keyup(function (event) {
+    <script>
+
+        $('#message-content').keyup(function(event) {
             if (event.keyCode === 13) {
                 $("#add").click();
             }
         });
-    
-    
-
-    function addComment() {
-        var commentText = $('#message-content').value;
-        console.log(commentText);
-
-        var dataToSend = {
-            "Message": $('#message-content').val(),
-            "BeerId": @Model.Id
-
-        };
 
 
-        $.ajax(
-            {
-                type: "POST",
-                traditional: true,
-                url: '@Url.Action("Add", "BeerComments")',
-                contentType: "application/json",
-                data: JSON.stringify(dataToSend),
-                success: function(response) {
-                    $('#message-content').val('');
+        function addComment() {
+            var commentText = $('#message-content').val();
+         
+            if (commentText !=="") {
+
+
+                var dataToSend = {
+                    "Message": $('#message-content').val(),
+                    "BeerId": @Model.Id
+
+                };
+
+
+                $.ajax(
+                    {
+                        type: "POST",
+                        traditional: true,
+                        url: '@Url.Action("Add", "BeerComments")',
+                        contentType: "application/json",
+                        data: JSON.stringify(dataToSend),
+                        success: function(response) {
+                            $('#message-content').val('');
 //                    onclick = "deleteComment(${id})"
-                    //  var td1 = $("td").text('User.Identity.Name');
+                            //  var td1 = $("td").text('User.Identity.Name');
 //                var td2 = $("td").text(dataToSend.Message);
 ////                var a = $("a").addClass("btn btn-danger").onclick(deleteComment(//ViewData["LastAddedComment"]))
 ////                    .Text('Remove');
-                    var id = response["id"];
-                    var a = $(`<a id="maina" class="btn btn-danger" >Remove</a>`).bind( "click", function() {
-                        deleteComment($(this),id);
-                    });;
+                            var id = response["id"];
+                            var a = $(`<a id="maina" class="btn btn-danger" >Remove</a>`).bind("click",
+                                function() {
+                                    deleteComment($(this), id);
+                                });;
 //                    console.log(id);
 //                    var b = `<a asp-controller="BeerComment" asp-action="Delete" asp-route-id="${id}">BeerName</a>`;
 //                var td3 = $("td");
-                    var tr = $("<tr></tr>").attr('id', 'new');
-                    var remtd = $("<td></td>").append(a);
-                    $(tr).append("<td> " + '@User.Identity.Name' + "</td >");
-                    $(tr).append("<td> " + dataToSend.Message + "</td >");
-                    $(tr).append(remtd);
-                    $(tr).hide();
-                    $('#comments').append(tr);
-                    $(tr).fadeIn();
-                    $('html, body').animate({
-                            scrollTop: $("#new").offset().top
-                        },
-                        2000);
-                }
-            });
+                            var tr = $("<tr></tr>").attr('id', 'new');
+                            var remtd = $("<td></td>").append(a);
+                            $(tr).append("<td> " + '@User.Identity.Name' + "</td >");
+                            $(tr).append("<td> " + dataToSend.Message + "</td >");
+                            $(tr).append(remtd);
+                            $(tr).hide();
+                            $('#comments').append(tr);
+                            $(tr).fadeIn();
+                            $('html, body').animate({
+                                    scrollTop: $("#new").offset().top
+                                },
+                                2000);
+                        }
+                    });
 //                .error(function() {
 //                    alert("Error adding comments");
 //                });
-    }
+            }
+        }
 
 //
-    function deleteComment(caller,commentId) {
-        $.ajax(
-                {
-                    type: "DELETE",
-                    traditional: true,
-                    url: '@Url.Action("Delete", "BeerComments")',
-                    data: ({ 'id': commentId })
-                })
-            .done(function() {
-                var el = $(caller.parent().parent());
-                el.fadeOut(500,function(){
-                    $(this).remove();});
-                //el.remove();
-            });
+        function deleteComment(caller, commentId) {
+            $.ajax(
+                    {
+                        type: "DELETE",
+                        traditional: true,
+                        url: '@Url.Action("Delete", "BeerComments")',
+                        data: ({ 'id': commentId })
+                    })
+                .done(function() {
+                    var el = $(caller.parent().parent());
+                    el.fadeOut(500,
+                        function() {
+                            $(this).remove();
+                        });
+                    //el.remove();
+                });
 
-    };
-    
-    function log(nsh) {
-        console.log(nsh);
-    }
-@*       }*@
-</script>
+        };
 
-<script>
-    //        //a function that changes the main image on hove of some of the thumbnails
+        function log(nsh) {
+            console.log(nsh);
+        }
+        @*       }*@
+    </script>
+
+    <script>
+            //        //a function that changes the main image on hove of some of the thumbnails
 //        $(document).ready(function () {
 //            $(".thumbnail-image").hover(
 //                function () {
@@ -185,5 +200,5 @@ BOooooooooo
 //                }
 //            );
 //        });
-</script>
+    </script>
 }
