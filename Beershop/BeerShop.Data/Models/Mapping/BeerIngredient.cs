@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BeerShop.Data.Models.Mapping
+﻿namespace BeerShop.Data.Models.Mapping
 {
   public  class BeerIngredient
     {

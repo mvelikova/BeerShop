@@ -8,11 +8,9 @@ using BeerShop.Services.Contracts;
 using BeerShop.Services.Html;
 using BeerShop.Services.Html.Implementations;
 using BeerShop.Services.Implementations;
-using BeerShop.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,32 +40,21 @@ namespace BeerShop.Web
                     options.Password.RequireUppercase = false;
                     options.Password.RequireLowercase = false;
                     options.Password.RequiredUniqueChars = 2;
-                  
+
                     //user settings
                     options.User.RequireUniqueEmail = true;
-                   
-
-
                 })
                 .AddEntityFrameworkStores<BeerShopDbContext>()
                 .AddDefaultTokenProviders();
-            //            services.AddIdentity<ApplicationUser, IdentityRole>()
-            //                .AddEntityFrameworkStores<BeerShopDbContext>()
-            //                .AddDefaultTokenProviders();
-//            services.AddIdentity<ApplicationUser, IdentityRole>()
-//                .AddEntityFrameworkStores<BeerShopDbContext>()
-//                .AddDefaultTokenProviders();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
-
                 facebookOptions.AppId = this.Configuration.GetSection("AppKeys")["FacebookAppId"];
                 facebookOptions.AppSecret = this.Configuration.GetSection("AppKeys")["FacebookAppSecret"];
                 facebookOptions.Scope.Add("public_profile");
                 facebookOptions.Fields.Add("name");
-
-                
             });
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IBeerService, BeerService>();
@@ -76,14 +63,13 @@ namespace BeerShop.Web
             services.AddScoped<IBeerCommentService, BeerCommentService>();
             services.AddScoped<IEventCommentService, EventCommentService>();
 
-
             services.AddAutoMapper();
 
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env,IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -97,19 +83,21 @@ namespace BeerShop.Web
             }
 
             app.UseStaticFiles();
-      
+
             app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    "areas",
-                    "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                    name: "areas",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
             using (var serviceScope =
                 app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
@@ -117,15 +105,15 @@ namespace BeerShop.Web
                 context.Database.Migrate();
 
                 CreateRoles(serviceProvider).Wait();
-
             }
         }
+
         public async Task CreateRoles(IServiceProvider serviceProvider)
         {
             //initializing custom roles 
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            string[] roleNames = { "Admin" };
+            string[] roleNames = {"Admin"};
 
             foreach (var roleName in roleNames)
             {
@@ -135,14 +123,13 @@ namespace BeerShop.Web
             }
 
             //Here you could create a super user who will maintain the web app
-            
+
             var email = this.Configuration.GetSection("UserSettings")["AdminEmail"];
 
             var superUser = new ApplicationUser
             {
-                
                 Email = email,
-                UserName="admin"
+                UserName = "admin"
             };
 
             //Ensure you have these values in your appsettings.json or secrets.json file

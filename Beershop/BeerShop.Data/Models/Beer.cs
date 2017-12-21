@@ -14,9 +14,8 @@ namespace BeerShop.Data.Models
         [MaxLength(100)]
         public string Name { get; set; }
 
-
         [Required]
-        public string Price { get; set; }
+        public decimal Price { get; set; }
 
         [MaxLength(500)]
         public string Description { get; set; }
@@ -27,7 +26,6 @@ namespace BeerShop.Data.Models
         [Required]
         public string Country { get; set; }
 
-        [Required]
         public string UserId { get; set; }
 
         public ApplicationUser User { get; set; }

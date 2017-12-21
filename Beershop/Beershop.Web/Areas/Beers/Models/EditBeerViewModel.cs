@@ -21,7 +21,7 @@ namespace BeerShop.Web.Areas.Beers.Models
 
 
         [Required]
-        public string Price { get; set; }
+        public decimal Price { get; set; }
 
         [MaxLength(500)]
         public string Description { get; set; }

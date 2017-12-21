@@ -21,67 +21,43 @@ namespace BeerShop.Data
         public DbSet<EventComment> EventComments { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder builder)
-        {
-            builder.UseSqlServer("Server=.;Database=BeerShopDb;Trusted_Connection=True;MultipleActiveResultSets=true");
-            base.OnConfiguring(builder);
-        }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            
-
             builder.Entity<ApplicationUser>()
                 .HasMany(a => a.EventComments)
                 .WithOne(e => e.User);
 
-            builder.Entity<BeerComment>()
-                .HasOne(a => a.User) //dependent entity
-                .WithMany(e => e.BeerComments); //principal
-
             builder.Entity<ApplicationUser>()
-                .HasMany(a => a.BeerComments) //dependent entity
-                .WithOne(e => e.User); //principal
-
-            builder.Entity<ApplicationUser>()
-                .HasMany(a => a.Beers)
-                .WithOne(b => b.User);
-
-            builder.Entity<ApplicationUser>()
-                .HasMany(a => a.Events)
-                .WithOne(b => b.User);
+                .HasMany(a => a.Events) //dependent
+                .WithOne(b => b.User) //principal
+                .OnDelete(DeleteBehavior.SetNull);
 
             //events
             builder.Entity<Event>()
                 .HasMany(a => a.Comments)
                 .WithOne(b => b.Event);
 
-            builder.Entity<Event>()
-                .HasOne(a => a.User)
-                .WithMany(b => b.Events);
+//            //...........................
 
-            //beer
-            builder.Entity<BeerComment>()
-                .HasOne(a => a.Beer) //dependent entity
-                .WithMany(e => e.Comments); //principal
-
-            builder.Entity<BeerIngredient>()
-                .HasOne(bc => bc.Beer)
-                .WithMany(b => b.Ingredients)
-                .HasForeignKey(bc => bc.BeerId).OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<BeerIngredient>()
-                .HasOne(bc => bc.Ingredient)
-                .WithMany(c => c.Beers)
-                .HasForeignKey(bc => bc.IngredientId).OnDelete(DeleteBehavior.Restrict);
-
-            //beertypes
+            builder.Entity<ApplicationUser>()
+                .HasMany(a => a.BeerComments) //dependent entity
+                .WithOne(e => e.User);
+            builder.Entity<ApplicationUser>()
+                .HasMany(a => a.Beers)
+                .WithOne(b => b.User)
+                .OnDelete(DeleteBehavior.SetNull);
+            builder.Entity<Beer>()
+                .HasMany(a => a.Comments)
+                .WithOne(b => b.Beer);
+//
+//            //beertypes
             builder.Entity<BeerType>()
                 .HasKey(b => new
                 {
                     b.BeerId,
                     b.TypeId
                 });
+
             //beerIngredients
             builder.Entity<BeerIngredient>()
                 .HasKey(b => new
@@ -89,10 +65,28 @@ namespace BeerShop.Data
                     b.BeerId,
                     b.IngredientId
                 });
-            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }
+//
+
+            builder.Entity<BeerIngredient>()
+                .HasOne(bc => bc.Beer)
+                .WithMany(b => b.Ingredients)
+                .HasForeignKey(bc => bc.BeerId);
+//
+            builder.Entity<BeerType>()
+                .HasOne(bc => bc.Beer)
+                .WithMany(b => b.Types)
+                .HasForeignKey(bc => bc.BeerId);
+
+            builder.Entity<BeerIngredient>()
+                .HasOne(bc => bc.Ingredient)
+                .WithMany(b => b.Beers)
+                .HasForeignKey(bc => bc.IngredientId);
+            //
+            builder.Entity<BeerType>()
+                .HasOne(bc => bc.Type)
+                .WithMany(b => b.Beers)
+                .HasForeignKey(bc => bc.TypeId);
+
             base.OnModelCreating(builder);
         }
     }

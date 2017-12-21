@@ -22,11 +22,9 @@ namespace BeerShop.Data.Models
 
         [MaxLength(500)]
         public string Description { get; set; }
-
        
         public string ImageUrl { get; set; }
 
-        [Required]
         public string UserId { get; set; }
 
         public ApplicationUser User { get; set; }

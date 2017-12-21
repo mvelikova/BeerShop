@@ -89,11 +89,9 @@ namespace BeerShop.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<string>("Price")
-                        .IsRequired();
+                    b.Property<decimal>("Price");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
@@ -144,8 +142,7 @@ namespace BeerShop.Data.Migrations
 
                     b.Property<DateTime>("StartTime");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
@@ -340,7 +337,7 @@ namespace BeerShop.Data.Migrations
                     b.HasOne("Beershop.Data.Models.ApplicationUser", "User")
                         .WithMany("Beers")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("BeerShop.Data.Models.BeerComment", b =>
@@ -348,12 +345,12 @@ namespace BeerShop.Data.Migrations
                     b.HasOne("BeerShop.Data.Models.Beer", "Beer")
                         .WithMany("Comments")
                         .HasForeignKey("BeerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Beershop.Data.Models.ApplicationUser", "User")
                         .WithMany("BeerComments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BeerShop.Data.Models.Event", b =>
@@ -361,7 +358,7 @@ namespace BeerShop.Data.Migrations
                     b.HasOne("Beershop.Data.Models.ApplicationUser", "User")
                         .WithMany("Events")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("BeerShop.Data.Models.EventComment", b =>
@@ -369,12 +366,12 @@ namespace BeerShop.Data.Migrations
                     b.HasOne("BeerShop.Data.Models.Event", "Event")
                         .WithMany("Comments")
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Beershop.Data.Models.ApplicationUser", "User")
                         .WithMany("EventComments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BeerShop.Data.Models.Mapping.BeerIngredient", b =>
@@ -382,12 +379,12 @@ namespace BeerShop.Data.Migrations
                     b.HasOne("BeerShop.Data.Models.Beer", "Beer")
                         .WithMany("Ingredients")
                         .HasForeignKey("BeerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BeerShop.Data.Models.Ingredient", "Ingredient")
                         .WithMany("Beers")
                         .HasForeignKey("IngredientId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BeerShop.Data.Models.Mapping.BeerType", b =>
@@ -395,12 +392,12 @@ namespace BeerShop.Data.Migrations
                     b.HasOne("BeerShop.Data.Models.Beer", "Beer")
                         .WithMany("Types")
                         .HasForeignKey("BeerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BeerShop.Data.Models.Type", "Type")
                         .WithMany("Beers")
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
