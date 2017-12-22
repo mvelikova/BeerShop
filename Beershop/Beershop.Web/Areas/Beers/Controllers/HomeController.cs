@@ -63,9 +63,10 @@ namespace BeerShop.Web.Areas.Beers.Controllers
         // GET: Beers/Beers/Create
         public IActionResult Create()
         {
-            var model=new CreateBeerViewModel();
-            model.Types = beers.GetAllBeerTypes().Select(t=>t.Name).ToList();
-
+            var model = new CreateBeerViewModel
+            {
+                Types = beers.GetAllBeerTypes().Select(t => t.Name).ToList()
+            };
 
             return View(model);
         }

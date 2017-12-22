@@ -22,7 +22,7 @@
                 <input asp-for="Name" class="form-control"/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div style="list-style: none;" id="categories"></div>
+            <div style="list-style: none;" id="beeres"></div>
             <div class="form-group">
                 <label asp-for="Ingredients" class="control-label"></label>
                 <input asp-for="Ingredients" autocomplete="off" class="form-control" id="listIngredient"/>
@@ -98,7 +98,7 @@
     }
     function getAll(reload) {
         if (reload) {
-            $('#categories').children().remove();
+            $('#beeres').children().remove();
 
 
             $.ajax(
@@ -113,7 +113,7 @@
 //                      console.log(response[i]["name"]);
                             var li = $(`<button type="button" class="btn btn-warning btn-xs"  style="margin: 2px;" value="${(response[i]['name'].toLowerCase())}">${(response[i]['name'].toLowerCase())}</button>`);
                             li.bind('click', addToIngredients);
-                            $('#categories').append(li);
+                            $('#beeres').append(li);
                         }
 
 
@@ -145,7 +145,7 @@
                             data: { 'substr': substr.trim() },
                             success: function(response) {
 
-                                $('#categories').children().remove();
+                                $('#beeres').children().remove();
 
                                 for (let i = 0; i < response.length && i < 5; i++) {
 //                      console.log(response[i]["name"]);
@@ -154,7 +154,7 @@
                                         (response[i]['name'].toLowerCase())}">${(response[i]["name"].toLowerCase())
                                         }</button>`);
                                     li.bind('click', addToIngredients);
-                                    $('#categories').append(li);
+                                    $('#beeres').append(li);
                                 }
 
 
