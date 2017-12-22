@@ -5,6 +5,7 @@ using AutoMapper.QueryableExtensions;
 using Beershop.Data.Models;
 using BeerShop.Data;
 using BeerShop.Data.Models;
+using BeerShop.Services;
 using BeerShop.Services.Contracts;
 using BeerShop.Services.Implementations;
 using BeerShop.Web.Areas.Events.Models;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace BeerShop.Web.Areas.Events.Controllers
@@ -49,8 +51,8 @@ namespace BeerShop.Web.Areas.Events.Controllers
             {
                 return NotFound();
             }
+            var @event = events.Join(e=>e.Comments).ThenJoin(e=>e.User).Where(e=>e.Id==id).SingleOrDefault();
 
-            var @event = events.GetSingle(e => e.Id == id, e => e.User);
             if (@event == null)
             {
                 return NotFound();
@@ -59,7 +61,7 @@ namespace BeerShop.Web.Areas.Events.Controllers
             return View(@event);
         }
 
-        // GET: Events/Events/Create
+        // GET: Events/Events/Creates
         public IActionResult Create()
         {
             var model = new CreateEventViewModel();

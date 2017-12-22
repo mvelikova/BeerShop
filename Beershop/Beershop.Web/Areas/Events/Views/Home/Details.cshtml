@@ -3,6 +3,10 @@
 @{
     ViewData["Title"] = "Details";
 }
+<script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
 <style>
 /*    .eventImg {*/
 /*        width: 400px;*/
@@ -63,7 +67,7 @@
             <div class="row">
                 <div class="col-md-9"><input type="text" class="form-control " id="message-content" name="message-content"/>
                 </div>
-                <a onclick="addComment()" class="btn btn-default col-md-3">Add Comment</a>
+                <a onclick="addComment()" id="add" class="btn btn-default col-md-3">Add Comment</a>
             </div>
         </div>
         if (Model.UserId == ViewData["UserId"].ToString())
@@ -82,7 +86,7 @@
         {
             <tr>
                 <td>
-                    @comment.User.Email
+                    @comment.User.UserName
                 </td>
                 <td>
                     @Html.Raw(comment.Message)
@@ -102,42 +106,49 @@
 </div>
 <script>
 
+    $('#message-content').keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#add").click();
+        }
+    });
+
 
     function addComment() {
-        var commentText = $('#message-content').value;
+        var commentText = $('#message-content').val();
         console.log(commentText);
+        if (commentText !== "") {
+            var dataToSend = {
+                "Message": $('#message-content').val(),
+                "EventId": @Model.Id
 
-        var dataToSend = {
-            "Message": $('#message-content').val(),
-            "EventId": @Model.Id
-
-        };
+            };
 
 
-        $.ajax(
-            {
-                type: "POST",
-                traditional: true,
-                url: '@Url.Action("Add", "EventComments")',
-                contentType: "application/json",
-                data: JSON.stringify(dataToSend),
-                success: function(response) {
-                    $('#message-content').val('');
+            $.ajax(
+                {
+                    type: "POST",
+                    traditional: true,
+                    url: '@Url.Action("Add", "EventComments")',
+                    contentType: "application/json",
+                    data: JSON.stringify(dataToSend),
+                    success: function(response) {
+                        $('#message-content').val('');
 //                    onclick = "deleteComment(${id})"
-                    //  var td1 = $("td").text('User.Identity.Name');
+                        //  var td1 = $("td").text('User.Identity.Name');
 //                var td2 = $("td").text(dataToSend.Message);
 ////                var a = $("a").addClass("btn btn-danger").onclick(deleteComment(//ViewData["LastAddedComment"]))
 ////                    .Text('Remove');
-                    var id = response["id"];
-                    var a = $(`<a id="maina" class="btn btn-danger" >Remove</a>`).bind( "click", function() {
-                        deleteComment($(this),id);
-                    });;
+                        var id = response["id"];
+                        var a = $(`<a id="maina" class="btn btn-danger" >Remove</a>`).bind("click",
+                            function() {
+                                deleteComment($(this), id);
+                            });;
 //                    console.log(id);
 //                    var b = `<a asp-controller="BeerComment" asp-action="Delete" asp-route-id="${id}">BeerName</a>`;
 //                var td3 = $("td");
-                    var tr = $("<tr></tr>").attr('id', 'new');
-                    var remtd = $("<td></td>").append(a);
-                    $(tr).append("<td> " + '@User.Identity.Name' + "</td >");
+                        var tr = $("<tr></tr>").attr('id', 'new');
+                        var remtd = $("<td></td>").append(a);
+                        $(tr).append("<td> " + '@User.Identity.Name' + "</td >");
                     $(tr).append("<td> " + dataToSend.Message + "</td >");
                     $(tr).append(remtd);
                     $(tr).hide();
@@ -152,6 +163,7 @@
 //                .error(function() {
 //                    alert("Error adding comments");
 //                });
+                }
     }
 
 //

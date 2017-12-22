@@ -50,7 +50,7 @@ namespace BeerShop.Web.Areas.Beers.Controllers
             }
 //
 //            var beer = beers.GetSignleWithComments(id);
-            var beer = beers.Join(b=>b.Types).ThenJoin(t=>t.Type).Join(b => b.Comments).ThenJoin(c => c.User).Join(b=>b.Ingredients).ThenJoin(i=>i.Ingredient).FirstOrDefault(b => b.Id == id);
+            var beer = beers.Join(b=>b.Types).ThenJoin(t=>t.Type).Join(b => b.Comments).ThenJoin(c => c.User).Join(b=>b.Ingredients).ThenJoin(i=>i.Ingredient).Single(b => b.Id == id);
             if (beer == null)
             {
                 return NotFound();
